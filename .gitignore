@@ -1,0 +1,26 @@
+# Project
+Build/
+Old/
+Packages/
+Wwise/
+Screenshots/
+StreamingAssets/
+Plugins/
+
+# Unity3D
+Library/
+Temp/
+
+# MonoDevelop
+*.booproj
+*.csproj
+*.pidb
+*.sln
+*.userprefs
+*.unityproj
+
+# Wwise
+#*.dll
+#*.dll.meta
+
+Assets/Wwise.meta
