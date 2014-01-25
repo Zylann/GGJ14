@@ -6,7 +6,7 @@ public class Cameraman : MonoBehaviour
 	// Inspector-set values
 	public GameObject left_block;
 	public float orthographic_size;
-	public float camera_smoothing_factor;
+	public float camera_smoothing_factor = 0.04f;
 	public float camera_left_offset = 0.5f;
 	public float up_tolerance = 1f;
 
