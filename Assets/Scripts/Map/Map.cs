@@ -1,43 +1,53 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Map : MonoBehaviour
 {
-	public string startMap = "start";
-	private Tilemap _tilemap;
+	public string startPattern;
+	public string[] patterns;
+	public GameObject mapSectorPrefab;
+	public int activeSectors = 3;
+	private int _patternIndex;
+	private Queue<MapSector> _sectors = new Queue<MapSector>();
+	private MapSector _lastQueuedSector;
 
-	void Start()
+	void Start ()
 	{
-		LoadTilemap(startMap);
+		GameObject obj = Instantiate(mapSectorPrefab) as GameObject;
+		_lastQueuedSector = obj.GetComponent<MapSector>();
+		_sectors.Enqueue(_lastQueuedSector);
 	}
 
-	private void LoadTilemap(string name)
+	void Update ()
 	{
-		TiledMap tiledMap = new TiledMap();
-		tiledMap.LoadFromJSON(startMap);
-		
-		_tilemap = GetComponent<Tilemap>();
-		_tilemap.collisionMapping = new int[] {
-			1, // block
-			0, // duck
-			2, // spike
-			0, // ...
-			0,
-			0,
-			0,
-			0,
-			0
-		};
-		_tilemap.Build (tiledMap, "background");
-		
-	}
-	
-	void Update()
-	{
-		
+		float avatarX = Game.Inst.m_object_player.transform.position.x;
+		float rightLimit = 50;
+
+		// If the sector on the right is close enough to the avatar
+		int maxX = _lastQueuedSector.right;
+		if(maxX - avatarX < rightLimit)
+		{
+			// If the sector count reached the limit
+			if(_sectors.Count >= activeSectors)
+			{
+				// Erase last sector
+				MapSector lastSector = _sectors.Dequeue();
+				Destroy(lastSector.gameObject);
+			}
+
+			// Append new sector on the right
+			GameObject sectorObj = Instantiate(mapSectorPrefab) as GameObject;
+			MapSector newSector = sectorObj.GetComponent<MapSector>();
+			newSector.mapName = patterns[Random.Range(0, patterns.Length)]; // TODO do something better, currently for testing
+			newSector.offsetX = maxX;
+			_sectors.Enqueue(newSector);
+			_lastQueuedSector = newSector;
+		}
 	}
 
 }
+
 
 
 

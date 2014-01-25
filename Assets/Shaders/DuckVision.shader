@@ -43,7 +43,7 @@
 				float4 position : SV_POSITION;
 				float2 texcoord0 : TEXCOORD0;
 				float2 texcoord1 : TEXCOORD1;
-				float2 texcoord2 : TEXCOORD2;
+				//float2 texcoord2 : TEXCOORD2;
 			};
 	
 			fragmentInput vert(vertexInput i)
@@ -52,16 +52,16 @@
 				o.texcoord0 = TRANSFORM_TEX(i.texcoord0, _MainTex); // This handles the "tiling" and "offset" texture parameters
 				o.position = mul (UNITY_MATRIX_MVP, i.vertex);
 				o.texcoord1 = i.vertex.xy;
-				o.texcoord2 = 0.5*o.position.xy+0.5;
+				//o.texcoord2 = 0.5*o.position.xy+0.5;
 				return o;
 			}
 			
 			float4 frag(fragmentInput i) : COLOR
 			{
 				float4 realColor = tex2D(_MainTex, i.texcoord0.xy);
-				float m = tex2D(_Mask, i.texcoord2.xy).r * _Fade;
+				float m = tex2D(_Mask, i.texcoord1.xy).r * _Fade;
 				float4 hiddenColor = tex2D(_HiddenTexture, i.texcoord1.xy);
-				float4 finalColor = realColor * (1.0-m) + hiddenColor * m;
+				float4 finalColor = float4(realColor.rgb * (1.0-m) + hiddenColor.rgb * m, 1.0);
 				return finalColor;
 			}
 			

@@ -1,40 +1,50 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class JumpInputInterpreter
-{
-	public enum JUMP_CONTROL_SCHEME { GAMEPAD, KEYBOARD };
-	
-	private JUMP_CONTROL_SCHEME _jump_control_scheme;
-	private IJumpInputListener _jump_input_listener;
+{	
+	private List<IJumpInputListener> _lst_jump_input_listeners;
+	private float _jump_input_buffer = 0.1f;
+	private Timer _timer_jump_input_buffer;
 
-	public JumpInputInterpreter(JUMP_CONTROL_SCHEME jump_control_scheme)
+	public JumpInputInterpreter()
 	{
-		_jump_control_scheme = jump_control_scheme;
+		_timer_jump_input_buffer = Timer.CreateTimer(_jump_input_buffer, false);
+		_timer_jump_input_buffer.SetToEnd();
 
-		switch (_jump_control_scheme)
+		_lst_jump_input_listeners = new List<IJumpInputListener>();
+		_lst_jump_input_listeners.Add(new GamepadJumpInputListener());
+		_lst_jump_input_listeners.Add(new KeyboardJumpInputListener());
+
+		foreach (IJumpInputListener jump_input_listener in _lst_jump_input_listeners)
 		{
-		case JUMP_CONTROL_SCHEME.GAMEPAD:
-			_jump_input_listener = new GamepadJumpInputListener();
-			break;
-		case JUMP_CONTROL_SCHEME.KEYBOARD:
-			_jump_input_listener = new KeyboardJumpInputListener();
-			break;
+			jump_input_listener.Initialize();
 		}
-
-		_jump_input_listener.Initialize();
 	}
 
 	public void Update()
 	{
-		_jump_input_listener.Update();
+		foreach (IJumpInputListener jump_input_listener in _lst_jump_input_listeners)
+		{
+			jump_input_listener.Update();
+			
+			if (jump_input_listener.GetJumpImpulse())
+			{
+				_timer_jump_input_buffer.Restart();
+			}
+		}
+	}
+
+	public void EndTolerance()
+	{
+		_timer_jump_input_buffer.SetToEnd();
 	}
 
 	public bool GetJumpImpulse()
 	{
-		if (_jump_input_listener.GetJumpImpulse () && Game.Inst.m_ground_prober.IsGrounded())
+		if (!_timer_jump_input_buffer.HasEnded() && Game.Inst.m_collision_prober.IsGrounded())
 		{
-			Game.Inst.m_ground_prober.EndTolerance();
+			Game.Inst.m_collision_prober.EndTolerance();
 			return true;
 		}
 		return false;
@@ -42,6 +52,17 @@ public class JumpInputInterpreter
 
 	public bool GetJumpHeld()
 	{
-		return _jump_input_listener.GetJumpHeld() && !Game.Inst.m_ground_prober.IsGrounded();
+		bool held = false;
+		
+		foreach (IJumpInputListener jump_input_listener in _lst_jump_input_listeners)
+		{
+			if (jump_input_listener.GetJumpHeld())
+			{
+				held = true;
+				break;
+			}
+		}
+
+		return held && !Game.Inst.m_collision_prober.IsGrounded();
 	}
 }

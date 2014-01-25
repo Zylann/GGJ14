@@ -39,6 +39,17 @@ public class Tilemap : MonoBehaviour
 	
 	public int width               { get { return _width; } }
 	public int height              { get { return _height; } }
+
+	public void SetLayer(int layer)
+	{
+		for(int i = 0; i < _chunks.Length; ++i)
+		{
+			if(_chunks[i] != null)
+			{
+				_chunks[i].layer = layer;
+			}
+		}
+	}
 	
 	public void Reset()
 	{
@@ -68,15 +79,18 @@ public class Tilemap : MonoBehaviour
 		collisionGrid = null;
 	}
 	
-	public void Build(TiledMap tiledMap, string tilesetName)
+	public void Build(TiledMap tiledMap, string tilesetName, bool collisions=true)
 	{
 		_width = tiledMap.width;
 		_height = tiledMap.height;
 		
 		BuildTiles(tiledMap, tilesetName);
-		
-		// Create colliders
-		BuildMeshCollider(tiledMap);
+
+		if(collisions)
+		{
+			// Create colliders
+			BuildMeshCollider(tiledMap);
+		}
 	}
 	
 	public static void ConvertGridToYUp(int[] grid, int width, int height)
@@ -166,7 +180,7 @@ public class Tilemap : MonoBehaviour
 
 				if(tc == 1)
 				{
-					int tl=0, tr=0, tu=0, td=0;
+					int tl=-1, tr=-1, tu=-1, td=-1;
 					
 					if(x != 0)
 					{

@@ -1,33 +1,29 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class DirectionInputInterpreter
 {
-	public enum DIRECTION_CONTROL_SCHEME { GAMEPAD, KEYBOARD };
+	private List<IDirectionInputListener> _lst_direction_input_listener;
 
-	private DIRECTION_CONTROL_SCHEME _direction_control_scheme;
-	private IDirectionInputListener _direction_input_listener;
-
-	public DirectionInputInterpreter(DIRECTION_CONTROL_SCHEME direction_control_scheme)
+	public DirectionInputInterpreter()
 	{
-		_direction_control_scheme = direction_control_scheme;
+		_lst_direction_input_listener = new List<IDirectionInputListener>();
+		_lst_direction_input_listener.Add(new GamepadDirectionInputListener());
+		_lst_direction_input_listener.Add(new KeyboardWasdDirectionInputListener());
+		_lst_direction_input_listener.Add(new KeyboardArrowsDirectionInputListener());
 
-		switch (_direction_control_scheme)
+		foreach (IDirectionInputListener direction_input_listener in _lst_direction_input_listener)
 		{
-		case DIRECTION_CONTROL_SCHEME.GAMEPAD:
-			_direction_input_listener = new GamepadDirectionInputListener();
-			break;
-		case DIRECTION_CONTROL_SCHEME.KEYBOARD:
-			_direction_input_listener = new KeyboardDirectionInputListener();
-			break;
+			direction_input_listener.Initialize();
 		}
-
-		_direction_input_listener.Initialize();
 	}
 
 	public void Update()
 	{
-		_direction_input_listener.Update();
+		foreach (IDirectionInputListener direction_input_listener in _lst_direction_input_listener)
+		{
+			direction_input_listener.Update();
+		}
 	}
 
 	/// <summary>
@@ -36,6 +32,13 @@ public class DirectionInputInterpreter
 	/// <returns>The player horizontal direction</returns>
 	public float GetDirection()
 	{
-		return _direction_input_listener.GetDirection();
+		float direction = 0f;
+
+		foreach (IDirectionInputListener direction_input_listener in _lst_direction_input_listener)
+		{
+			direction += direction_input_listener.GetDirection();
+		}
+
+		return Mathf.Max(-1f, Mathf.Min(1f, direction));;
 	}
 }
