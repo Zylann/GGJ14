@@ -25,6 +25,7 @@ public class GUIScore : MonoBehaviour
 		if(score != _displayedScore)
 		{
 			UpdateScoreText(score);
+			scoreObj.SendMessage("Bump", SendMessageOptions.DontRequireReceiver);
 			_displayedScore = score;
 		}
 
@@ -32,6 +33,7 @@ public class GUIScore : MonoBehaviour
 		if(_displayedCombo != combo)
 		{
 			UpdateComboText(combo);
+			comboObj.SendMessage("Bump", SendMessageOptions.DontRequireReceiver);
 			_displayedCombo = combo;
 		}
 	}
