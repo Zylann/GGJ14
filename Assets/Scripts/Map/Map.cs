@@ -1,87 +1,53 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Map : MonoBehaviour
 {
-	public string startMap = "start";
-	public GameObject spikePrefab;
-	public GameObject collectiblePrefab;
-	public Tilemap normalTilemap;
-	public Tilemap duckWorldTilemap;
+	public string startPattern;
+	public string[] patterns;
+	public GameObject mapSectorPrefab;
+	public int activeSectors = 3;
+	private int _patternIndex;
+	private Queue<MapSector> _sectors = new Queue<MapSector>();
+	private MapSector _lastQueuedSector;
 
-	void Start()
+	void Start ()
 	{
-		LoadTilemap(startMap);
+		GameObject obj = Instantiate(mapSectorPrefab) as GameObject;
+		_lastQueuedSector = obj.GetComponent<MapSector>();
+		_sectors.Enqueue(_lastQueuedSector);
 	}
 
-	private void LoadTilemap(string name, int offsetX = 0)
+	void Update ()
 	{
-		// Build background
+		float avatarX = Game.Inst.m_object_player.transform.position.x;
+		float rightLimit = 50;
 
-		// Load map data
-		TiledMap tiledMap = new TiledMap();
-		tiledMap.LoadFromJSON(startMap);
-
-		// Build visible tilemap with collisions
-		normalTilemap.collisionMapping = new int[] {
-			1, // [0] block
-			0, // [1] duck
-			2, // [2] spike up
-			3, // [3] coin
-			0, // ...
-			0,
-			0,
-			0,
-			0
-		};
-		normalTilemap.Build(tiledMap, "background");
-
-		// Build duckland tilemap without colliders
-		duckWorldTilemap.Build(tiledMap, "background", false);
-		duckWorldTilemap.SetLayer(LayerMask.NameToLayer("DuckWorld"));
-
-		TiledMap.Layer bgLayer = tiledMap.layers["background"];
-
-		// Build special colliders
-
-		for(int y = 0; y < bgLayer.height; ++y)
+		// If the sector on the right is close enough to the avatar
+		int maxX = _lastQueuedSector.right;
+		if(maxX - avatarX < rightLimit)
 		{
-			for(int x = 0; x < bgLayer.width; ++x)
+			// If the sector count reached the limit
+			if(_sectors.Count >= activeSectors)
 			{
-				int t = bgLayer.AtYup(x,y); // Note: t starts at index 1
-
-				Vector3 pos = new Vector3(offsetX+x+0.5f, y+0.5f);
-
-				if(t == 3)
-				{
-					Instantiate(spikePrefab, pos, Quaternion.identity);
-				}
+				// Erase last sector
+				MapSector lastSector = _sectors.Dequeue();
+				Destroy(lastSector.gameObject);
 			}
+
+			// Append new sector on the right
+			GameObject sectorObj = Instantiate(mapSectorPrefab) as GameObject;
+			MapSector newSector = sectorObj.GetComponent<MapSector>();
+			newSector.mapName = patterns[Random.Range(0, patterns.Length)]; // TODO do something better, currently for testing
+			newSector.offsetX = maxX;
+			_sectors.Enqueue(newSector);
+			_lastQueuedSector = newSector;
 		}
-
-		// Build collectibles
-
-		TiledMap.Layer objectLayer = tiledMap.layers["objects"];
-		for(int y = 0; y < objectLayer.height; ++y)
-		{
-			for(int x = 0; x < objectLayer.width; ++x)
-			{
-				int t = objectLayer.AtYup(x,y);
-				if(t == 4)
-				{
-					Instantiate(collectiblePrefab, new Vector3(offsetX+x+0.5f, y+0.5f), Quaternion.identity);
-				}
-			}
-		}
-
-	}
-	
-	void Update()
-	{
-		
 	}
 
 }
+
 
 
 

@@ -23,7 +23,7 @@ public class Scoring : MonoBehaviour
 		{
 			_current_combo = 0;
 		}
-				
+
 		DebugOverlay.Instance.Line("Combo", _current_combo);
 		DebugOverlay.Instance.Line("Score", _current_score);
 	}
