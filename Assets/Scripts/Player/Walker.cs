@@ -8,6 +8,10 @@ public class Walker : MonoBehaviour
 	// Inspector-set values
 	public float walk_speed = 105f;
 	public float air_speed = 5f;
+
+	public float air_hurt_speed = 5f;
+	public float ground_hurt_speed = 10f;
+
 	public float ground_drag = 15f;
 	public float air_drag = 10f;
 	public AnimationCurve ground_acceleration_movement_curve;
@@ -59,5 +63,11 @@ public class Walker : MonoBehaviour
 				rigidbody.AddForce (Vector3.right * _direction_input_interpreter.GetDirection () * _air_acceleration_movement.GetMovement () * air_speed);
 			}
 		}
+	}
+	
+	public void Hurt(Vector3 normal, float strength)
+	{
+		Debug.Log ("Add force at " + normal);
+		rigidbody.AddForce(normal * strength * (Game.Inst.m_collision_prober.IsGrounded() ? ground_hurt_speed : air_hurt_speed));
 	}
 }

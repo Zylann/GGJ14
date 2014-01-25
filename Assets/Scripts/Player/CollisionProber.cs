@@ -5,6 +5,7 @@ public class CollisionProber : MonoBehaviour
 {
 	// Inspector-set values
 	public float grounded_time_tolerance = 0.1f;
+	public float invulnerability_time = 1f;
 
 	// Ground detection
 	private Timer _timer_grounder;
@@ -20,12 +21,18 @@ public class CollisionProber : MonoBehaviour
 	private bool _ceiling_hugging = false;
 	private bool _ceiling_hugging_impulse = false;
 
-	public void Start()
+	// Danger detection
+	private Timer _timer_invulnerability;
+
+	public void Awake()
 	{
 		_timer_grounder = Timer.CreateTimer(grounded_time_tolerance, true);
 		_timer_ceiling_hugging = Timer.CreateTimer (_ceiling_hugging_time_tolerance, true);
 		
 		_timer_stop_ground_tolerance = Timer.CreateTimer(_stop_tolerance_time, true);
+		
+		_timer_invulnerability = Timer.CreateTimer(invulnerability_time, false);
+		_timer_invulnerability.SetToEnd();
 	}
 
 	public void Update()
@@ -52,6 +59,22 @@ public class CollisionProber : MonoBehaviour
 
 	public void OnCollisionStay(Collision collision)
 	{
+		switch (collision.gameObject.tag)
+		{
+		case "Spike":
+			if (_timer_invulnerability.HasEnded())
+			{
+				Game.Inst.m_walker.Hurt(collision.contacts[0].normal, 2.5f);
+				Game.Inst.m_health.TakeDamage(1);
+				Game.Inst.m_collision_prober.EndTolerance();
+				_timer_invulnerability.Restart();
+			}
+			break;
+		default:
+
+			break;
+		}
+
 		foreach (ContactPoint contact in collision.contacts)
 		{
 			if (contact.normal.y > 0.5f)
@@ -63,6 +86,7 @@ public class CollisionProber : MonoBehaviour
 				_timer_ceiling_hugging.Restart();
 			}
 		}
+
 	}
 
 	public void EndTolerance()
