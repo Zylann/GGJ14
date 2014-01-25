@@ -3,15 +3,30 @@ using System.Collections;
 
 public class Collector : MonoBehaviour
 {
-	public void OnTriggerEnter(Collider collider)
+	// Inspector-set values
+	public float invulnerability_time = 1f;
+
+	private Timer _timer_invulnerability;
+
+	public void Awake()
+	{
+		_timer_invulnerability = Timer.CreateTimer(invulnerability_time, false);
+		_timer_invulnerability.SetToEnd();
+	}
+
+	public void OnTriggerStay(Collider collider)
 	{
 		switch (collider.tag)
 		{
 		case "Collectible":
 			PickCollectible(collider.gameObject);
 			break;
-		default:
-
+		case "Spike":
+			if (_timer_invulnerability.HasEnded())
+			{
+				Game.Inst.m_health.TakeDamage(1);
+				_timer_invulnerability.Restart();
+			}
 			break;
 		}
 	}
