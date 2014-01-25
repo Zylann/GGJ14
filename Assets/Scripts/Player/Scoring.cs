@@ -8,10 +8,12 @@ public class Scoring : MonoBehaviour
 
 	public int _current_combo { get; private set; }
 	public int _current_score { get; private set; }
+
 	private Timer _timer_combo;
 
 	public void Awake()
 	{
+		_current_score = 1;
 		_timer_combo = Timer.CreateTimer(_combo_cooldown, false);
 	}
 
@@ -22,8 +24,8 @@ public class Scoring : MonoBehaviour
 			_current_combo = 0;
 		}
 				
-		DebugOverlay.Instance.Line ("Combo", _current_combo);
-		DebugOverlay.Instance.Line ("Score", _current_score);
+		DebugOverlay.Instance.Line("Combo", _current_combo);
+		DebugOverlay.Instance.Line("Score", _current_score);
 	}
 
 	public void PushPickCollectibleEvent()
@@ -32,5 +34,8 @@ public class Scoring : MonoBehaviour
 
 		_current_combo++;
 		_current_score += _current_combo;
+		
+		Game.Inst.m_duckfield.OffsetScale(1f);
+		Game.Inst.m_duckization.OffsetValue(0.05f);
 	}
 }

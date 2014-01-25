@@ -6,10 +6,14 @@ public class Game : MonoBehaviour
 {
 	public GameObject m_object_player;
 	public GameObject m_object_helpers;
+	public GameObject m_object_duckfield;
+	public GameObject m_object_audio;
 		
 	public CollisionProber m_collision_prober;
 	public Scoring m_scoring;
 	public Health m_health;
+	public DuckField m_duckfield;
+	public DuckizationController m_duckization;
 
 	public TimeHelper m_time_helper;
 
@@ -43,6 +47,8 @@ public class Game : MonoBehaviour
         // Finding GameObjects
         m_object_player = GameObject.Find("Player");
 		m_object_helpers = GameObject.Find ("Helpers");
+		m_object_duckfield = GameObject.Find("Duckfield");
+		m_object_audio = GameObject.Find("Audio");
 
         // Finding Components
 		m_collision_prober = m_object_player.GetComponent<CollisionProber>();
@@ -50,5 +56,9 @@ public class Game : MonoBehaviour
 		m_health = m_object_player.GetComponent<Health>();
 
 		m_time_helper = m_object_helpers.GetComponent<TimeHelper>();
+
+		m_duckfield = m_object_duckfield.GetComponent<DuckField>();
+
+		m_duckization = m_object_audio.GetComponent<DuckizationController>();
     }
 }
