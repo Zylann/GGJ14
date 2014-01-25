@@ -39,6 +39,11 @@ public class Movement
 
     public float GetMovement()
 	{
+		if (_enabled == false)
+		{
+			return 0f;
+		}
+
 		return _curve.Evaluate (_time);
 	}
 }
