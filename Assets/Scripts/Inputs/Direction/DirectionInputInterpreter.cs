@@ -3,12 +3,15 @@ using System.Collections;
 
 public class DirectionInputInterpreter
 {
-	private enum DIRECTION_CONTROL_SCHEME { GAMEPAD, KEYBOARD};
-	private DIRECTION_CONTROL_SCHEME _direction_control_scheme = DIRECTION_CONTROL_SCHEME.KEYBOARD;
+	public enum DIRECTION_CONTROL_SCHEME { GAMEPAD, KEYBOARD };
+
+	private DIRECTION_CONTROL_SCHEME _direction_control_scheme;
 	private IDirectionInputListener _direction_input_listener;
 
-	public DirectionInputInterpreter()
+	public DirectionInputInterpreter(DIRECTION_CONTROL_SCHEME direction_control_scheme)
 	{
+		_direction_control_scheme = direction_control_scheme;
+
 		switch (_direction_control_scheme)
 		{
 		case DIRECTION_CONTROL_SCHEME.GAMEPAD:
@@ -19,12 +22,12 @@ public class DirectionInputInterpreter
 			break;
 		}
 
-		_direction_input_listener.Initialize ();
+		_direction_input_listener.Initialize();
 	}
 
 	public void Update()
 	{
-		_direction_input_listener.Update ();
+		_direction_input_listener.Update();
 	}
 
 	/// <summary>
@@ -33,6 +36,6 @@ public class DirectionInputInterpreter
 	/// <returns>The player horizontal direction</returns>
 	public float GetDirection()
 	{
-		return _direction_input_listener.GetDirection ();
+		return _direction_input_listener.GetDirection();
 	}
 }

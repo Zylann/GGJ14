@@ -4,7 +4,7 @@ using System.Collections;
 public class GamepadDirectionInputListener : IDirectionInputListener
 {
 	private float _direction;
-	private float _threshold = 0.1f;
+	private float _threshold = 0.2f;
 
 	public void Initialize()
 	{
@@ -13,7 +13,7 @@ public class GamepadDirectionInputListener : IDirectionInputListener
 	
 	public void Update()
 	{
-		_direction = Input.GetAxis("Joystick_Horizontal");
+		_direction = Input.GetAxis("_Joystick_Horizontal");
 	}
 
 	public float GetDirection()
