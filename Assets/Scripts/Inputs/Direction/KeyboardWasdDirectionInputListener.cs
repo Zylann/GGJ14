@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class KeyboardDirectionInputListener : IDirectionInputListener
+public class KeyboardWasdDirectionInputListener : IDirectionInputListener
 {
 	private float _direction;
 	
