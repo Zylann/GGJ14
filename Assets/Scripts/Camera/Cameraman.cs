@@ -6,10 +6,12 @@ public class Cameraman : MonoBehaviour
 	// Inspector-set values
 	public GameObject left_block;
 	public float orthographic_size;
-	public float camera_smoothing_factor = 0.04f;
 	public float camera_left_offset = 0.5f;
+	public float camera_smoothing_walk = 0.05f;
+	public float camera_smoothing_run = 0.15f;
 	public float up_tolerance = 1f;
-
+	
+	private float _camera_smoothing_factor;
 	private Camera _camera;
 	private Vector3 _target_position;
 
@@ -21,6 +23,8 @@ public class Cameraman : MonoBehaviour
 		_camera.orthographicSize = orthographic_size;
 
 		left_block.transform.position = transform.position - Vector3.right * orthographic_size * _camera.aspect;
+
+		SetCameraSmoothingToRun(false);
 	}
 
 	public void LateUpdate()
@@ -39,8 +43,11 @@ public class Cameraman : MonoBehaviour
 			_target_position = new Vector3 (_target_position.x, y_target_position, transform.position.z);
 		}
 
-		transform.position = Vector3.Lerp (transform.position, _target_position, camera_smoothing_factor);
+		transform.position = Vector3.Lerp (transform.position, _target_position, _camera_smoothing_factor);
+	}
 
-	
+	public void SetCameraSmoothingToRun(bool running)
+	{
+		_camera_smoothing_factor = (running ? camera_smoothing_run : camera_smoothing_walk);
 	}
 }

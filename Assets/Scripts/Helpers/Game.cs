@@ -8,6 +8,7 @@ public class Game : MonoBehaviour
 	public GameObject m_object_helpers;
 	public GameObject m_object_duckfield;
 	public GameObject m_object_audio;
+	public GameObject m_object_cameraman;
 		
 	public CollisionProber m_collision_prober;
 	public Scoring m_scoring;
@@ -15,6 +16,7 @@ public class Game : MonoBehaviour
 	public Walker m_walker;
 	public DuckField m_duckfield;
 	public DuckizationController m_duckization;
+	public Cameraman m_cameraman;
 
 	public TimeHelper m_time_helper;
 
@@ -50,6 +52,7 @@ public class Game : MonoBehaviour
 		m_object_helpers = GameObject.Find ("Helpers");
 		m_object_duckfield = GameObject.Find("Duckfield");
 		m_object_audio = GameObject.Find("Audio");
+		m_object_cameraman = GameObject.Find("Main Camera");
 
         // Finding Components
 		m_collision_prober = m_object_player.GetComponent<CollisionProber>();
@@ -62,5 +65,7 @@ public class Game : MonoBehaviour
 		m_duckfield = m_object_duckfield.GetComponent<DuckField>();
 
 		m_duckization = m_object_audio.GetComponent<DuckizationController>();
+
+		m_cameraman = m_object_cameraman.GetComponent<Cameraman>();
     }
 }

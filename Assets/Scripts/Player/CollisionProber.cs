@@ -18,8 +18,6 @@ public class CollisionProber : MonoBehaviour
 	// Ceiling detection
 	private float _ceiling_hugging_time_tolerance = 0.05f;
 	private Timer _timer_ceiling_hugging;
-	private bool _ceiling_hugging = false;
-	private bool _ceiling_hugging_impulse = false;
 
 	// Danger detection
 	private Timer _timer_invulnerability;
@@ -48,13 +46,6 @@ public class CollisionProber : MonoBehaviour
 			_grounded_impulse = true;
 		}
 		_grounded = IsGrounded();
-
-		_ceiling_hugging_impulse = false;
-		if (IsCeilingHugging () && !_ceiling_hugging)
-		{
-			_ceiling_hugging_impulse = true;
-		}
-		_ceiling_hugging = IsCeilingHugging();
 	}
 
 	public void OnCollisionStay(Collision collision)
