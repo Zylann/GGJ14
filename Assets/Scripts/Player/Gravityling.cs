@@ -26,7 +26,5 @@ public class Gravityling : MonoBehaviour
 		// Gravity is applied (at x = 0 on the curve) even when on the ground, so that we can detect
 		// rigidbody collisions with ground
 		rigidbody.AddForce (-1f * Vector3.up * _fall_strength * _fall_movement.GetMovement());
-
-		DebugOverlay.Instance.Histogram(_fall_movement.GetMovement());
 	}
 }
