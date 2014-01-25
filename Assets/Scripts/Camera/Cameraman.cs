@@ -23,7 +23,7 @@ public class Cameraman : MonoBehaviour
 		left_block.transform.position = transform.position - Vector3.right * orthographic_size * _camera.aspect;
 	}
 
-	public void Update()
+	public void LateUpdate()
 	{
 		float x_target_position = Game.Inst.m_object_player.transform.position.x + orthographic_size * _camera.aspect * camera_left_offset /* + orthographic_size / 2f*/;
 
