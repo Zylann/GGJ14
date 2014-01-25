@@ -8,9 +8,14 @@ public class Map : MonoBehaviour
 
 	void Start()
 	{
+		LoadTilemap(startMap);
+	}
+
+	private void LoadTilemap(string name)
+	{
 		TiledMap tiledMap = new TiledMap();
 		tiledMap.LoadFromJSON(startMap);
-
+		
 		_tilemap = GetComponent<Tilemap>();
 		_tilemap.collisionMapping = new int[] {
 			1, // block
@@ -24,6 +29,7 @@ public class Map : MonoBehaviour
 			0
 		};
 		_tilemap.Build (tiledMap, "background");
+		
 	}
 	
 	void Update()
