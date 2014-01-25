@@ -12,6 +12,7 @@ public class Game : MonoBehaviour
 	public CollisionProber m_collision_prober;
 	public Scoring m_scoring;
 	public Health m_health;
+	public Walker m_walker;
 	public DuckField m_duckfield;
 	public DuckizationController m_duckization;
 
@@ -54,6 +55,7 @@ public class Game : MonoBehaviour
 		m_collision_prober = m_object_player.GetComponent<CollisionProber>();
 		m_scoring = m_object_player.GetComponent<Scoring>();
 		m_health = m_object_player.GetComponent<Health>();
+		m_walker = m_object_player.GetComponent<Walker>();
 
 		m_time_helper = m_object_helpers.GetComponent<TimeHelper>();
 

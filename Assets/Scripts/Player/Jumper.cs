@@ -36,7 +36,8 @@ public class Jumper : MonoBehaviour
 		}
 
 		rigidbody.AddForce(Vector3.up * jump_impulse_strength * _jump_impulse_movement.GetMovement());
-
+		
+		DebugOverlay.Instance.Line ("Held", _jump_input_interpreter.GetJumpHeld() && !Game.Inst.m_collision_prober.IsCeilingHugging() && _held_jump_since_impulse);
 		if (_jump_input_interpreter.GetJumpHeld() && !Game.Inst.m_collision_prober.IsCeilingHugging() && _held_jump_since_impulse)
 		{
 			_jump_input_interpreter.EndTolerance();
