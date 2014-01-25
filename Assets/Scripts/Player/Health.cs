@@ -17,6 +17,11 @@ public class Health : MonoBehaviour
 	{
 		DebugOverlay.Instance.Line("Life", _current_health);
 	}
+	
+	public int current
+	{
+		get { return _current_health; }
+	}
 
 	public void TakeDamage(int damage)
 	{

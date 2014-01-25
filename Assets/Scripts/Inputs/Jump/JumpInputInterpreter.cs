@@ -56,7 +56,11 @@ public class JumpInputInterpreter
 		
 		foreach (IJumpInputListener jump_input_listener in _lst_jump_input_listeners)
 		{
-			held |= jump_input_listener.GetJumpHeld();
+			if (jump_input_listener.GetJumpHeld())
+			{
+				held = true;
+				break;
+			}
 		}
 
 		return held && !Game.Inst.m_collision_prober.IsGrounded();
