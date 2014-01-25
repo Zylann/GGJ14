@@ -7,7 +7,7 @@ public class Game : MonoBehaviour
 	public GameObject m_object_player;
 	public GameObject m_object_helpers;
 		
-	public GroundProber m_ground_prober;
+	public CollisionProber m_collision_prober;
 	public TimeHelper m_time_helper;
 
     private static Game instance;
@@ -42,7 +42,7 @@ public class Game : MonoBehaviour
 		m_object_helpers = GameObject.Find ("Helpers");
 
         // Finding Components
-		m_ground_prober = m_object_player.GetComponent<GroundProber>();
+		m_collision_prober = m_object_player.GetComponent<CollisionProber>();
 		m_time_helper = m_object_helpers.GetComponent<TimeHelper>();
     }
 }

@@ -3,12 +3,7 @@ using System.Collections.Generic;
 
 public class TimeHelper : MonoBehaviour
 {
-    private List<Timer> m_lst_timers;
-
-    void Awake()
-    {
-        m_lst_timers = new List<Timer>();
-    }
+    private List<Timer> m_lst_timers = new List<Timer>();
 
     void Update()
     {
