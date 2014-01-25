@@ -38,4 +38,14 @@ public class Scoring : MonoBehaviour
 		Game.Inst.m_duckfield.OffsetScale(1f);
 		Game.Inst.m_duckization.OffsetValue(0.05f);
 	}
+
+	public void PushPickCancerEvent()
+	{
+		_timer_combo.SetToEnd();
+
+		_current_combo = 0;
+		
+		Game.Inst.m_duckfield.OffsetScale(10f);
+		Game.Inst.m_duckization.OffsetValue(0.5f);
+	}
 }

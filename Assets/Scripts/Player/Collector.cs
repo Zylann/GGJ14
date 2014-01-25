@@ -10,6 +10,9 @@ public class Collector : MonoBehaviour
 		case "Collectible":
 			PickCollectible(collider.gameObject);
 			break;
+		case "Cancer":
+			PickCancer(collider.gameObject);
+			break;
 		}
 	}
 
@@ -18,5 +21,12 @@ public class Collector : MonoBehaviour
 		Game.Inst.m_scoring.PushPickCollectibleEvent();
 
 		Game.Destroy(collectible);
+	}
+
+	public void PickCancer(GameObject cancer)
+	{
+		Game.Inst.m_scoring.PushPickCancerEvent();
+
+		Game.Destroy(cancer);	
 	}
 }
