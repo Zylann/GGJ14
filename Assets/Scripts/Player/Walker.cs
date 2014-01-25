@@ -14,17 +14,22 @@ public class Walker : MonoBehaviour
 
 	public float ground_drag = 15f;
 	public float air_drag = 10f;
+	public float run_bonus = 1.25f;
 	public AnimationCurve ground_acceleration_movement_curve;
 	public AnimationCurve air_acceleration_movement_curve;
+
 
 	private Movement _ground_acceleration_movement;
 	private Movement _air_acceleration_movement;
 
 	private DirectionInputInterpreter _direction_input_interpreter;
+	private RunInputInterpeter _run_input_interpreter;
 
 	public void Awake()
 	{
 		_direction_input_interpreter = new DirectionInputInterpreter();
+		_run_input_interpreter = new RunInputInterpeter();
+
 		_ground_acceleration_movement = new Movement(ground_acceleration_movement_curve);
 		_air_acceleration_movement = new Movement(air_acceleration_movement_curve);
 	}
@@ -32,8 +37,14 @@ public class Walker : MonoBehaviour
 	public void Update()
 	{
 		_direction_input_interpreter.Update();
+		_run_input_interpreter.Update();
+
 		_ground_acceleration_movement.Update();
 		_air_acceleration_movement.Update();
+
+		bool running = _run_input_interpreter.GetRunHeld();
+		float current_run_factor = running ? run_bonus : 1f;
+		Game.Inst.m_cameraman.SetCameraSmoothingToRun(running && _direction_input_interpreter.GetDirection() > 0f); // Offset camera when running the the right
 
 		// Walking
 		if (Game.Inst.m_collision_prober.IsGrounded())
@@ -46,7 +57,9 @@ public class Walker : MonoBehaviour
 			}
 			else
 			{
-				rigidbody.AddForce (Vector3.right * _direction_input_interpreter.GetDirection () * _ground_acceleration_movement.GetMovement () * walk_speed);
+				rigidbody.AddForce(
+					Vector3.right * _direction_input_interpreter.GetDirection() * _ground_acceleration_movement.GetMovement() 
+					* walk_speed * current_run_factor);
 			}
 		}
 		// Jumping
@@ -60,14 +73,14 @@ public class Walker : MonoBehaviour
 			}
 			else
 			{
-				rigidbody.AddForce (Vector3.right * _direction_input_interpreter.GetDirection () * _air_acceleration_movement.GetMovement () * air_speed);
+				rigidbody.AddForce (Vector3.right * _direction_input_interpreter.GetDirection() * _air_acceleration_movement.GetMovement()
+				                    * air_speed * current_run_factor);
 			}
 		}
 	}
 	
 	public void Hurt(Vector3 normal, float strength)
 	{
-		Debug.Log ("Add force at " + normal);
 		rigidbody.AddForce(normal * strength * (Game.Inst.m_collision_prober.IsGrounded() ? ground_hurt_speed : air_hurt_speed));
 	}
 }
