@@ -13,6 +13,11 @@ public class Health : MonoBehaviour
 		_current_health = max_health;
 	}
 
+	public void Update()
+	{
+		DebugOverlay.Instance.Line("Life", _current_health);
+	}
+	
 	public int current
 	{
 		get { return _current_health; }
