@@ -180,7 +180,7 @@ public class Tilemap : MonoBehaviour
 
 				if(tc == 1)
 				{
-					int tl=0, tr=0, tu=0, td=0;
+					int tl=-1, tr=-1, tu=-1, td=-1;
 					
 					if(x != 0)
 					{

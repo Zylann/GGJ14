@@ -43,10 +43,12 @@ public class MapSector : MonoBehaviour
 			0
 		};
 		normalTilemap.Build(tiledMap, "background");
+		normalTilemap.transform.position = new Vector3(offsetX, 0);
 
 		// Build duckland tilemap without colliders
 		duckWorldTilemap.Build(tiledMap, "background", false);
 		duckWorldTilemap.SetLayer(LayerMask.NameToLayer("DuckWorld"));
+		duckWorldTilemap.transform.position = new Vector3(offsetX, 0);
 
 		TiledMap.Layer bgLayer = tiledMap.layers["background"];
 
