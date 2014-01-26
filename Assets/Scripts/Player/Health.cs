@@ -33,7 +33,6 @@ public class Health : MonoBehaviour
 			Fabric.EventManager.Instance.PostEvent("Music", Fabric.EventAction.StopSound);
 			Application.LoadLevel(Application.loadedLevel);
 		}
-
 		else
 		{
 			Fabric.EventManager.Instance.PostEvent("Player/Hurt");
