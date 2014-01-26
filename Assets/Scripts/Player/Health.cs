@@ -29,7 +29,14 @@ public class Health : MonoBehaviour
 
 		if (_current_health == 0)
 		{
+			Fabric.EventManager.Instance.PostEvent("Player/Die");
+			Fabric.EventManager.Instance.PostEvent("Music", Fabric.EventAction.StopSound);
 			Application.LoadLevel(Application.loadedLevel);
+		}
+
+		else
+		{
+			Fabric.EventManager.Instance.PostEvent("Player/Hurt");
 		}
 	}
 }

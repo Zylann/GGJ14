@@ -13,8 +13,8 @@ public class GamepadRunInputListener : IRunInputListener {
 	
 	public void Update()
 	{
-		_running_impulse = Input.GetButtonDown("_Gamepad_Run");
-		_running = Input.GetButton("_Gamepad_Run");
+		_running_impulse = Input.GetButtonDown("_Gamepad_Run_Button") || Input.GetButtonDown("_Gamepad_Run_Trigger");
+		_running = Input.GetButton("_Gamepad_Run_Button") || (Input.GetAxis("_Gamepad_Run_Trigger") > 0f);
 	}
 
 	public bool GetRunningImpulse()
