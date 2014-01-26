@@ -41,6 +41,8 @@ public class Scoring : MonoBehaviour
 		
 		Game.Inst.m_duckfield.OffsetScale(1f);
 		Game.Inst.m_duckization.OffsetValue(0.05f);
+
+		Fabric.EventManager.Instance.PostEvent("Player/Lolly");
 	}
 
 	public void PushPickCancerEvent()
@@ -51,6 +53,8 @@ public class Scoring : MonoBehaviour
 		
 		Game.Inst.m_duckfield.OffsetScale(10f);
 		Game.Inst.m_duckization.OffsetValue(0.5f);
+
+		Fabric.EventManager.Instance.PostEvent("Player/Sick");
 	}
 
 	public bool HasCollectibleFeedback()

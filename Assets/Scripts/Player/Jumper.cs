@@ -33,6 +33,7 @@ public class Jumper : MonoBehaviour
 			_held_jump_since_impulse = true;
 			_jump_impulse_movement.Restart();
 			_jump_held_movement.Restart();
+			Fabric.EventManager.Instance.PostEvent("Player/Jump");
 		}
 
 		rigidbody.AddForce(Vector3.up * jump_impulse_strength * _jump_impulse_movement.GetMovement());
@@ -41,6 +42,7 @@ public class Jumper : MonoBehaviour
 		{
 			_jump_input_interpreter.EndTolerance();
 			rigidbody.AddForce(Vector3.up * jump_held_strength * _jump_held_movement.GetMovement());
+
 		}
 		else
 		{
