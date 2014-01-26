@@ -19,16 +19,18 @@ public class DuckField : MonoBehaviour
 	public void Update()
 	{
 		transform.localScale = Vector3.Lerp(transform.localScale, _target_scale, scale_smoothing);
+		DebugOverlay.Instance.Line("Local scale", transform.localScale.x);
 	}
 
 	public void SetScale(float scale)
 	{
-		_target_scale = Mathf.Max(min_duckfield_scale, scale) * Vector3.one;
+		_target_scale = new Vector3(scale, scale, scale);
 	}
 
 	public void OffsetScale(float offset)
 	{
-		SetScale(_target_scale.x + offset);
-		Game.Inst.m_duckization.duckizationAmount = Mathf.Min(1f, _target_scale.x / max_duckfield_scale);
+		float clamped_scale = Mathf.Clamp(_target_scale.x + offset, min_duckfield_scale, max_duckfield_scale);
+
+		SetScale(clamped_scale);
 	}
 }

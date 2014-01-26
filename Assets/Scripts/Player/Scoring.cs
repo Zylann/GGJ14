@@ -39,13 +39,14 @@ public class Scoring : MonoBehaviour
 
 		_timer_collectible_feedback.Restart();
 
-		Game.Inst.m_duckfield.OffsetScale(2f);
+		Game.Inst.m_duckfield.OffsetScale(1f);
 		Fabric.EventManager.Instance.PostEvent("Player/Lolly");
 	}
 
 	public void PushPickCancerEvent()
 	{		
 		Game.Inst.m_duckfield.OffsetScale(10f);
+		Fabric.EventManager.Instance.PostEvent("Player/Sick");
 	}
 
 	public void PushPickSpikeEvent()
@@ -54,8 +55,7 @@ public class Scoring : MonoBehaviour
 		
 		_current_combo = 0;
 
-		Game.Inst.m_duckfield.OffsetScale(-25f);
-		Fabric.EventManager.Instance.PostEvent("Player/Sick");
+		Game.Inst.m_duckfield.OffsetScale(-10f);
 	}
 
 	public bool HasCollectibleFeedback()
