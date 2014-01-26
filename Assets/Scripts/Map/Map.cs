@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿//#define STREAMED
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -9,15 +11,37 @@ public class Map : MonoBehaviour
 	public int activeSectors = 3;
 	public int levelIndex = 0;
 	private int _sectorIndex;
+
+#if STREAMED
 	private Queue<MapSector> _sectors = new Queue<MapSector>();
 	private MapSector _lastQueuedSector;
+#endif
 
 	void Start ()
 	{
+#if STREAMED
 		AppendSector(0);
 		++_sectorIndex;
+#else
+		InstantiateAll();
+#endif
 	}
 
+	private void InstantiateAll()
+	{
+		MapSectorNames data = levels[levelIndex];
+		int offsetX = 0;
+		for(int i = 0; i < data.sectors.Length; ++i)
+		{
+			GameObject sectorObj = Instantiate(mapSectorPrefab) as GameObject;
+			MapSector newSector = sectorObj.GetComponent<MapSector>();
+			newSector.mapName = levels[levelIndex].sectors[i];
+			newSector.offsetX = offsetX;
+			offsetX += newSector.right;
+		}
+	}
+
+#if STREAMED
 	void Update ()
 	{
 		float avatarX = Game.Inst.m_object_player.transform.position.x;
@@ -52,6 +76,16 @@ public class Map : MonoBehaviour
 		newSector.offsetX = _lastQueuedSector != null ? _lastQueuedSector.right : 0;
 		_sectors.Enqueue(newSector);
 		_lastQueuedSector = newSector;
+	}
+
+#endif
+
+	private void OnSceneLoad()
+	{
+#if STREAMED
+		_lastQueuedSector = null;
+		_sectors.Clear();
+#endif
 	}
 
 }
