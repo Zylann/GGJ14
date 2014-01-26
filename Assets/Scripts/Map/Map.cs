@@ -4,9 +4,18 @@ using System.Collections.Generic;
 
 public class Map : MonoBehaviour
 {
-	public MapSectorNames[] levels;
+	public static int levelIndex = 0;
+
+	public static Map Instance { get { return __instance; } }
+	private static Map __instance;
+
 	public GameObject mapSectorPrefab;
-	public int levelIndex = 0;
+	public MapSectorNames[] levels;
+
+	void Awake()
+	{
+		__instance = this;
+	}
 
 	public void LoadLevel(int index)
 	{
@@ -18,7 +27,7 @@ public class Map : MonoBehaviour
 	void Start()
 	{
 		Debug.Log("Map.Start()");
-		DontDestroyOnLoad(gameObject);
+		//DontDestroyOnLoad(gameObject);
 		LoadLevel(levelIndex);
 	}
 
@@ -32,8 +41,20 @@ public class Map : MonoBehaviour
 			MapSector newSector = sectorObj.GetComponent<MapSector>();
 			newSector.mapName = levels[levelIndex].sectors[i];
 			newSector.offsetX = offsetX;
-			offsetX += newSector.right;
+			newSector.Load();
+			offsetX = newSector.right;
 		}
+	}
+
+	public static void Reload()
+	{
+		Application.LoadLevel(Application.loadedLevel);
+	}
+
+	public static void LoadNext()
+	{
+		++levelIndex;
+		Application.LoadLevel(Application.loadedLevel);
 	}
 
 }
