@@ -65,6 +65,7 @@ public class CollisionProber : MonoBehaviour
 				Game.Inst.m_walker.Hurt(collision.contacts[0].normal, 2.5f);
 				Game.Inst.m_health.TakeDamage(1);
 				Game.Inst.m_collision_prober.EndTolerance();
+				Game.Inst.m_scoring.PushPickSpikeEvent();
 				_timer_invulnerability.Restart();
 				_timer_hurt_feedback.Restart();
 			}
