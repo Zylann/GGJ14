@@ -21,17 +21,17 @@ public class Menu : MonoBehaviour {
 	
 	string zurl = "";
 	
-	public int ButtonWidth,ButtonHeight;
+	int ButtonWidth,ButtonHeight;
 	int ButtonPosX,ButtonPosY;
-	int ButtonW;
-	int ButtonH;
+	//int ButtonW;
+	//int ButtonH;
 	int LabelW;
 	int LabelH;
 	
 	
 	bool HowToPlayisActive = false;
 	bool SettingsisActive = false;
-	bool HightScoreisActive = false;
+	bool HighScoreisActive = false;
 	bool CreditsisActive = false;
 	bool PopupActive = false;
 	
@@ -45,11 +45,14 @@ public class Menu : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		ButtonHeight = (Screen.height/16)/*/ - Screen.height/3)/5*/;
+		ButtonWidth = (Screen.width/6);
+
 		ButtonPosX = Screen.width/2 - ButtonWidth /2;
-		ButtonPosY = Screen.height/2 - ButtonHeight*6 + ButtonHeight/2;
+		ButtonPosY = Screen.height/8;
 		
-		ButtonW = Screen.width/20;
-		ButtonH = Screen.width/20;
+		//ButtonW = Screen.width/20;
+		//ButtonH = Screen.width/20;
 	
 		sm = SaveManager.Get();
 		sm.LoadGame();
@@ -74,8 +77,9 @@ public class Menu : MonoBehaviour {
 	{
 		GUI.skin = gsk;
 		
-		int ButtonW = Screen.width/20;
-		int ButtonH = Screen.width/20;
+		
+		int ButtonW = Screen.width/30;
+		int ButtonH = Screen.width/30;
 		
 		if(HowToPlayisActive) //HowToPlay
 		{
@@ -83,7 +87,8 @@ public class Menu : MonoBehaviour {
 			
 			//Bouton Retour
 			GUI.skin = gpopup;
-			if(GUI.Button(new Rect(Screen.width*9/10, Screen.height*1/10,ButtonW,ButtonH), "X"))
+			//Bouton Retour
+			if(GUI.Button(new Rect(Screen.width*14/15, Screen.height*1/15,ButtonW,ButtonH), "X"))
 			{
 				 HowToPlayisActive = false;
 			}
@@ -95,30 +100,35 @@ public class Menu : MonoBehaviour {
 			
 			//Bouton Retour
 			GUI.skin = gpopup;
-			if(GUI.Button(new Rect(Screen.width*9/10, Screen.height*1/10,ButtonW,ButtonH), "X"))
+			//Bouton Retour
+			if(GUI.Button(new Rect(Screen.width*14/15, Screen.height*1/15,ButtonW,ButtonH), "X"))
 			{
 				 CreditsisActive = false;
 			}
 			
 			GUI.skin = gsk;
-			GUI.Label(new Rect(Screen.width/8,Screen.height/6,100,30), "Crédit");
-			GUI.Label(new Rect(Screen.width/5,Screen.height/5*2,100,30), "Grand fou 1");
-			GUI.Label(new Rect(Screen.width/5,Screen.height/5*3,100,30), "Grand fou 2");
-			GUI.Label(new Rect(Screen.width/5,Screen.height/5*4,100,30), "Grand fou 3");
-			GUI.Label(new Rect(Screen.width/4*2,Screen.height/5*2,100,30), "Grand fou 4");
-			GUI.Label(new Rect(Screen.width/4*2,Screen.height/5*3,100,30), "Grand fou 5");
-			GUI.Label(new Rect(Screen.width/4*2,Screen.height/5*4,100,30), "Grand fou 6");
+			GUI.Label(new Rect(0,Screen.height/6,Screen.width/2,Screen.height/10), "Credits");
+			GUI.Label(new Rect(0,Screen.height/5*2,Screen.width/2,Screen.height/10), "Vincent Abry");
+			GUI.Label(new Rect(0,Screen.height/5*3,Screen.width/2,Screen.height/10), "Marc Gilleron");
+			GUI.Label(new Rect(0,Screen.height/5*4,Screen.width/2,Screen.height/10), "Elizabeth Maler");
+			GUI.Label(new Rect(Screen.width/2,Screen.height/5*2,Screen.width/2,Screen.height/10), "Théo Torregrossa");
+			GUI.Label(new Rect(Screen.width/2,Screen.height/5*3,Screen.width/2,Screen.height/10), "Arnaud Millot");
+			GUI.Label(new Rect(Screen.width/2,Screen.height/5*4,Screen.width/2,Screen.height/10), "Benjamin Teissier");
 		}
 		else if(SettingsisActive) //Settings
 		{
+			GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height), backgroundCreditTexture, ScaleMode.StretchToFill);
+
+
 			GUI.skin = gsubsk;
-			
-			
+			gsubsk.GetStyle("Label").fontSize=Screen.height/20;
+			gsubsk.GetStyle("TextField").fontSize=Screen.width/50;
+
 			//Label
-			GUI.Label(new Rect(Screen.width/8,Screen.height/6,Screen.width/2,300), "Please enter the absolute adress of a square .png picture");
+			GUI.Label(new Rect(Screen.width/6,Screen.height/4 +Screen.height/18,Screen.width/3*2,300), "Please enter the absolute adress of a square .png picture");
 			
 			//Champ de saisie
-			zurl = GUI.TextField(new Rect(Screen.width/8,Screen.height/6+Screen.height/6, Screen.width/2, 30), zurl, 300);
+			zurl = GUI.TextField(new Rect(Screen.width/5,Screen.height/4, Screen.width/2, Screen.height/18), zurl, 300);
 			string path = "file://";
 	
 	        path += zurl;
@@ -128,13 +138,15 @@ public class Menu : MonoBehaviour {
 	
 			//Bouton OK
 			GUI.skin = gpopup;
-			if(GUI.Button(new Rect(Screen.width/8 + Screen.width/2 +5,Screen.height/6+Screen.height/6, 30, 30), "OK"))
+			gpopup.GetStyle("Button").fontSize=Screen.width/60;
+			if(GUI.Button(new Rect(Screen.width/5 + Screen.width/2 +5,Screen.height/4, Screen.height/16, Screen.height/18), "OK"))
 			{
 				StartCoroutine(WaitForRequest(www));
 			}
+
 			
 			//Bouton Retour
-			if(GUI.Button(new Rect(Screen.width*9/10, Screen.height*1/10,ButtonW,ButtonH), "X"))
+			if(GUI.Button(new Rect(Screen.width*14/15, Screen.height*1/15,ButtonW,ButtonH), "X"))
 			{
 				SettingsisActive = false;
 				PopupActive = false;
@@ -150,30 +162,37 @@ public class Menu : MonoBehaviour {
 				}
 			}
 		}
-		else if(HightScoreisActive) //HightScore
+		else if(HighScoreisActive) //HighScore
 		{
+			GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height), backgroundCreditTexture, ScaleMode.StretchToFill);
+
 			GUI.skin = gsk;
-			GUI.Label(new Rect(Screen.width/2 -50,Screen.height/8,100,30), "Scores");
+			gsk.GetStyle("Label").fontSize=Screen.height/15;
+			GUI.Label(new Rect(0, Screen.height/8,Screen.width,Screen.height/10), "Scores");
 			GUI.skin = GScoreSkn;
-			
+			GScoreSkn.GetStyle("Label").fontSize=Screen.height/20;
 			//Debug.Log("foo"+topDix.Count);
 			
 			int j = 1;
 			for (int i = topDix.Count-1; i > (topDix.Count-6); --i)
 			{
-				GUI.Label(new Rect(Screen.width/2 - 50,Screen.height/6+30*j,100,30), topDix[i]);
+				GUI.Label(new Rect(0,Screen.height/6+Screen.height/10*j,Screen.width,Screen.height/10), topDix[i]);
 				j++;
 			}
 			
 			//Bouton Retour
-			if(GUI.Button(new Rect(Screen.width*9/10, Screen.height*1/10,ButtonW,ButtonH), "X"))
+			GUI.skin = gpopup;
+			if(GUI.Button(new Rect(Screen.width*14/15, Screen.height*1/15,ButtonW,ButtonH), "X"))
 			{
-				 HightScoreisActive = false;
+				 HighScoreisActive = false;
 			}
 		}
 		else
 		{
 			GUI.skin = gsk;
+			gsk.GetStyle("Button").fontSize=Screen.width/40;
+
+			
 			GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height), backgroundMenuTexture, ScaleMode.ScaleAndCrop);
 			
 			if(GUI.Button(new Rect(ButtonPosX, ButtonPosY,ButtonWidth,ButtonHeight), "Play"))
@@ -192,9 +211,9 @@ public class Menu : MonoBehaviour {
 				SettingsisActive = true;
 			}
 			
-			if(GUI.Button(new Rect(ButtonPosX,ButtonPosY+ButtonHeight*6,ButtonWidth,ButtonHeight), "Hight scores"))
+			if(GUI.Button(new Rect(ButtonPosX,ButtonPosY+ButtonHeight*6,ButtonWidth,ButtonHeight), "High scores"))
 			{
-				HightScoreisActive = true;
+				HighScoreisActive = true;
 			}
 			
 			if(GUI.Button(new Rect(ButtonPosX,ButtonPosY+ButtonHeight*8,ButtonWidth,ButtonHeight), "Credits"))

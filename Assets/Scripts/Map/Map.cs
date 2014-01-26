@@ -6,52 +6,34 @@ public class Map : MonoBehaviour
 {
 	public MapSectorNames[] levels;
 	public GameObject mapSectorPrefab;
-	public int activeSectors = 3;
 	public int levelIndex = 0;
-	private int _sectorIndex;
-	private Queue<MapSector> _sectors = new Queue<MapSector>();
-	private MapSector _lastQueuedSector;
 
-	void Start ()
+	public void LoadLevel(int index)
 	{
-		AppendSector(0);
-		++_sectorIndex;
+		Debug.Log("Loading level " + index);
+		levelIndex = index;
+		InstantiateAll();
+	}
+	
+	void Start()
+	{
+		Debug.Log("Map.Start()");
+		DontDestroyOnLoad(gameObject);
+		LoadLevel(levelIndex);
 	}
 
-	void Update ()
+	private void InstantiateAll()
 	{
-		float avatarX = Game.Inst.m_object_player.transform.position.x;
-		float rightLimit = 50;
-
-		// If the sector on the right is close enough to the avatar
-		if(_lastQueuedSector.right - avatarX < rightLimit)
+		MapSectorNames data = levels[levelIndex];
+		int offsetX = 0;
+		for(int i = 0; i < data.sectors.Length; ++i)
 		{
-			// If the sector count reached the limit
-			if(_sectors.Count >= activeSectors)
-			{
-				// Erase last sector
-				MapSector lastSector = _sectors.Dequeue();
-				Destroy(lastSector.gameObject);
-			}
-
-			// if the current index has not reached the end of the sectors
-			if(_sectorIndex < levels.Length)
-			{
-				// Append next sector on the right
-				AppendSector(_sectorIndex);
-				++_sectorIndex;
-			}
+			GameObject sectorObj = Instantiate(mapSectorPrefab) as GameObject;
+			MapSector newSector = sectorObj.GetComponent<MapSector>();
+			newSector.mapName = levels[levelIndex].sectors[i];
+			newSector.offsetX = offsetX;
+			offsetX += newSector.right;
 		}
-	}
-
-	private void AppendSector(int i)
-	{
-		GameObject sectorObj = Instantiate(mapSectorPrefab) as GameObject;
-		MapSector newSector = sectorObj.GetComponent<MapSector>();
-		newSector.mapName = levels[levelIndex].sectors[i];
-		newSector.offsetX = _lastQueuedSector != null ? _lastQueuedSector.right : 0;
-		_sectors.Enqueue(newSector);
-		_lastQueuedSector = newSector;
 	}
 
 }
