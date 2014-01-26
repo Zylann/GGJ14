@@ -32,7 +32,11 @@ public class Health : MonoBehaviour
 		{
 			Fabric.EventManager.Instance.PostEvent("Player/Die");
 			Fabric.EventManager.Instance.PostEvent("Music", Fabric.EventAction.StopSound);
-			Map.Reload();
+			
+			Game.Inst.m_walker.DisableInputs();
+			Game.Inst.m_jumper.DisableInputs();
+
+			Game.Inst.m_screen_helper.StartLogoFade();
 		}
 		else
 		{

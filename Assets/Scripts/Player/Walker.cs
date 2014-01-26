@@ -18,8 +18,11 @@ public class Walker : MonoBehaviour
 	public AnimationCurve ground_acceleration_movement_curve;
 	public AnimationCurve air_acceleration_movement_curve;
 
-	public bool running { get; private set; }
+	public ParticleSystem particle_system_run;
+	public ParticleSystem particle_system_hurt;
 
+	public bool running { get; private set; }
+	
 	private Movement _ground_acceleration_movement;
 	private Movement _air_acceleration_movement;
 
@@ -86,10 +89,21 @@ public class Walker : MonoBehaviour
 				                    * air_speed * current_run_factor);
 			}
 		}
+
+
+		if (running && IsMoving())
+		{
+			particle_system_run.Play();
+		}
+		else
+		{
+			particle_system_run.Stop();
+		}
 	}
 	
 	public void Hurt(Vector3 normal, float strength)
 	{
+		particle_system_hurt.Play();
 		rigidbody.AddForce(normal * strength * (Game.Inst.m_collision_prober.IsGrounded() ? ground_hurt_speed : air_hurt_speed));
 	}
 

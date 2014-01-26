@@ -7,8 +7,7 @@ public class DeathTrigger : MonoBehaviour
 	{
 		if (collision.gameObject.name == "Player")
 		{
-			Map.Reload();
-			//Application.LoadLevel(Application.loadedLevel);
+			Game.Inst.m_health.TakeDamage(20);
 		}
 	}
 }

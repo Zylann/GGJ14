@@ -19,22 +19,18 @@ public class ScreenHelper : MonoBehaviour
     private Resolution m_screen_resolution;
 
     // Fade to black and logo stuff
-    private Texture2D m_black_texture;
-    private Texture2D m_logo;
+    public Texture2D m_black_texture;
+	public Texture2D m_logo;
     public enum FADE_STATUS { NORMAL, FADE, LOGO };
     public FADE_STATUS m_fade_status;
     private Timer m_timer;
 
-    public float m_fade_black;
+    public float m_level_restart;
     public float m_fade_logo;
 
     void Start()
     {
         InitializeScreen();
-
-        m_black_texture = Resources.Load("Textures/GUI/black") as Texture2D;
-
-        m_logo = Resources.Load("Textures/GUI/logo_ascent") as Texture2D;
 
         Screen.showCursor = false;
     }
@@ -63,8 +59,11 @@ public class ScreenHelper : MonoBehaviour
 
     public void StartLogoFade()
     {
-        m_fade_status = FADE_STATUS.FADE;
-        m_timer = Timer.CreateTimer(m_fade_black);
+		if (m_fade_status == FADE_STATUS.NORMAL)
+	    {
+			m_fade_status = FADE_STATUS.LOGO /*FADE_STATUS.FADE*/;
+			m_timer = Timer.CreateTimer(m_level_restart);
+		}
     }
 
     public void OnGUI()
@@ -78,22 +77,23 @@ public class ScreenHelper : MonoBehaviour
                 GUI.color = new Color(1f, 1f, 1f, m_timer.GetProgress());
                 GUI.DrawTexture(new Rect(0, 0, m_screen_width, m_screen_height), m_black_texture);
 
-                if (m_timer.HasEnded())
-                {
-                    m_timer.Restart(m_fade_logo);
-                    m_fade_status = FADE_STATUS.LOGO;
-                }
-
                 break;
             case FADE_STATUS.LOGO:
-
+			/*
                 GUI.color = new Color(1f, 1f, 1f, 1f);
                 GUI.DrawTexture(new Rect(0, 0, m_screen_width, m_screen_height), m_black_texture, ScaleMode.StretchToFill, true);
+			 */
                 GUI.color = new Color(1f, 1f, 1f, m_timer.GetProgress());
-                GUI.DrawTexture(new Rect(0, 0, m_screen_width, m_screen_height), m_logo, ScaleMode.StretchToFill, true);
+				GUI.DrawTexture(new Rect(W_to_px(0.25f), H_to_px(0.10f), W_to_px(0.5f), W_to_px(0.5f)), m_logo, ScaleMode.StretchToFill, true);
+			
+				if (m_timer.HasEnded())
+				{
+					Map.Reload();
+					//Application.LoadLevel(Application.loadedLevel);
+				}
 
-
-                break;
-        }
-    }
+			
+			break;
+		}
+	}
 }
