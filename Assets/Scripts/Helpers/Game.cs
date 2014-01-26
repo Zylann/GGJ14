@@ -14,10 +14,13 @@ public class Game : MonoBehaviour
 	public Scoring m_scoring;
 	public Health m_health;
 	public Walker m_walker;
+	public Jumper m_jumper;
 	public DuckField m_duckfield;
 	public DuckizationController m_duckization;
 	public Cameraman m_cameraman;
+	public IgMenu m_ig_menu;
 
+	public ScreenHelper m_screen_helper;
 	public TimeHelper m_time_helper;
 
     private static Game instance;
@@ -59,13 +62,16 @@ public class Game : MonoBehaviour
 		m_scoring = m_object_player.GetComponent<Scoring>();
 		m_health = m_object_player.GetComponent<Health>();
 		m_walker = m_object_player.GetComponent<Walker>();
+		m_jumper = m_object_player.GetComponent<Jumper>();
 
 		m_time_helper = m_object_helpers.GetComponent<TimeHelper>();
+		m_screen_helper = m_object_helpers.GetComponent<ScreenHelper>();
 
 		m_duckfield = m_object_duckfield.GetComponent<DuckField>();
 
 		m_duckization = m_object_audio.GetComponent<DuckizationController>();
 
 		m_cameraman = m_object_cameraman.GetComponent<Cameraman>();
+		m_ig_menu = m_object_cameraman.GetComponent<IgMenu>();
     }
 }

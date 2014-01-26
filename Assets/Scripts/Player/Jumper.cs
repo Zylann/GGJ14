@@ -49,4 +49,9 @@ public class Jumper : MonoBehaviour
 			_held_jump_since_impulse = false;
 		}
 	}
+
+	public void DisableInputs()
+	{
+		_jump_input_interpreter.enabled = false;
+	}
 }

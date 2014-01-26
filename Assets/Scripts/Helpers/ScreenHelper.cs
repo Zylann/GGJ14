@@ -15,12 +15,6 @@ public class ScreenHelper : MonoBehaviour
         get;
         private set;
     }
-    [HideInInspector]
-    public float m_ratio
-    {
-        get;
-        private set;
-    }
 
     private Resolution m_screen_resolution;
 
@@ -45,12 +39,16 @@ public class ScreenHelper : MonoBehaviour
         Screen.showCursor = false;
     }
 
+	public void Update()
+	{
+		InitializeScreen();
+	}
+
     private void InitializeScreen()
     {
-        m_screen_resolution = Screen.currentResolution;
-        m_screen_width = (int)(m_screen_resolution.width);
-        m_screen_height = (int)(m_screen_resolution.height);
-        m_ratio = m_screen_width / m_screen_height;
+        //m_screen_resolution = Screen.currentResolution;
+        m_screen_width = Screen.width;
+        m_screen_height = Screen.height;
     }
 
     public float W_to_px(float perc)

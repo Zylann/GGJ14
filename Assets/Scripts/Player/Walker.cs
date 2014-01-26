@@ -97,4 +97,10 @@ public class Walker : MonoBehaviour
 	{
 		return _direction_input_interpreter.GetDirection() > 0f;
 	}
+
+	public void DisableInputs()
+	{
+		_direction_input_interpreter.enabled = false;
+		_run_input_interpreter.enabled = false;
+	}
 }

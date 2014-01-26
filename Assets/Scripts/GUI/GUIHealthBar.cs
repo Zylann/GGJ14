@@ -25,7 +25,7 @@ public class GUIHealthBar : MonoBehaviour
 			pos.x -= spacing;
 		}
 
-		_displayedHealth = Game.Inst.m_health.current;
+		_displayedHealth = 0;
 	}
 
 	void Update()

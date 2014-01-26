@@ -6,9 +6,11 @@ public class JumpInputInterpreter
 	private List<IJumpInputListener> _lst_jump_input_listeners;
 	private float _jump_input_buffer = 0.1f;
 	private Timer _timer_jump_input_buffer;
+	public bool enabled { private get; set; }
 
 	public JumpInputInterpreter()
 	{
+		enabled = true;
 		_timer_jump_input_buffer = Timer.CreateTimer(_jump_input_buffer, false);
 		_timer_jump_input_buffer.SetToEnd();
 
@@ -42,6 +44,11 @@ public class JumpInputInterpreter
 
 	public bool GetJumpImpulse()
 	{
+		if (!enabled)
+		{
+			return false;
+		}
+
 		if (!_timer_jump_input_buffer.HasEnded() && Game.Inst.m_collision_prober.IsGrounded())
 		{
 			Game.Inst.m_collision_prober.EndTolerance();
@@ -52,6 +59,11 @@ public class JumpInputInterpreter
 
 	public bool GetJumpHeld()
 	{
+		if (!enabled)
+		{
+			return false;
+		}
+
 		bool held = false;
 		
 		foreach (IJumpInputListener jump_input_listener in _lst_jump_input_listeners)

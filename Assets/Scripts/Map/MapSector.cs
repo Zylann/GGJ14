@@ -7,6 +7,8 @@ public class MapSector : MonoBehaviour
 	public GameObject spikePrefab;
 	public GameObject collectiblePrefab;
 	public GameObject cancerPrefab;
+	public GameObject goalPrefab;
+	public GameObject heartPrefab;
 	public int offsetX;
 	public int width;
 	public Tilemap normalTilemap;
@@ -85,6 +87,14 @@ public class MapSector : MonoBehaviour
 				else if (t == 5)
 				{
 					Instantiate(cancerPrefab, new Vector3(offsetX+x+0.5f, y+0.5f), Quaternion.identity);
+				}
+				else if (t == 6)
+				{
+					Instantiate(goalPrefab, new Vector3(offsetX+x+0.5f, y+0.5f), Quaternion.identity);
+				}
+				else if (t == 7)
+				{
+					Instantiate(heartPrefab, new Vector3(offsetX+x+0.5f, y+0.5f), Quaternion.identity);
 				}
 			}
 		}
