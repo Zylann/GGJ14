@@ -46,6 +46,17 @@ public class Map : MonoBehaviour
 		}
 	}
 
+	public static void Reload()
+	{
+		Application.LoadLevel(Application.loadedLevel);
+	}
+
+	public static void LoadNext()
+	{
+		++levelIndex;
+		Application.LoadLevel(Application.loadedLevel);
+	}
+
 }
 
 [System.Serializable]

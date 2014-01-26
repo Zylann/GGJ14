@@ -6,8 +6,11 @@ public class MapEditorReset : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Debug.Log("Reset Map.levelIndex");
-		Map.levelIndex = 0;
+		if(!Application.isPlaying)
+		{
+			Debug.Log("Reset Map.levelIndex");
+			Map.levelIndex = 0;
+		}
 	}
 	
 }
