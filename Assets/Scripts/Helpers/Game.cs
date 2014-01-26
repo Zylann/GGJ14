@@ -9,7 +9,7 @@ public class Game : MonoBehaviour
 	public GameObject m_object_duckfield;
 	public GameObject m_object_audio;
 	public GameObject m_object_cameraman;
-		
+
 	public CollisionProber m_collision_prober;
 	public Scoring m_scoring;
 	public Health m_health;
