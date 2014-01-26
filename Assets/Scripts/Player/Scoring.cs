@@ -9,12 +9,17 @@ public class Scoring : MonoBehaviour
 	public int _current_combo { get; private set; }
 	public int _current_score { get; private set; }
 
+	private float _collectible_feedback_time = 0.5f;
+	private Timer _timer_collectible_feedback;
 	private Timer _timer_combo;
 
 	public void Awake()
 	{
-		_current_score = 1;
 		_timer_combo = Timer.CreateTimer(_combo_cooldown, false);
+		_timer_collectible_feedback = Timer.CreateTimer (_collectible_feedback_time, false);
+		_timer_collectible_feedback.SetToEnd();
+
+		_current_score = 0;
 	}
 
 	public void Update()
@@ -23,9 +28,6 @@ public class Scoring : MonoBehaviour
 		{
 			_current_combo = 0;
 		}
-
-		DebugOverlay.Instance.Line("Combo", _current_combo);
-		DebugOverlay.Instance.Line("Score", _current_score);
 	}
 
 	public void PushPickCollectibleEvent()
@@ -34,8 +36,25 @@ public class Scoring : MonoBehaviour
 
 		_current_combo++;
 		_current_score += _current_combo;
+
+		_timer_collectible_feedback.Restart();
 		
 		Game.Inst.m_duckfield.OffsetScale(1f);
 		Game.Inst.m_duckization.OffsetValue(0.05f);
+	}
+
+	public void PushPickCancerEvent()
+	{
+		_timer_combo.SetToEnd();
+
+		_current_combo = 0;
+		
+		Game.Inst.m_duckfield.OffsetScale(10f);
+		Game.Inst.m_duckization.OffsetValue(0.5f);
+	}
+
+	public bool HasCollectibleFeedback()
+	{
+		return !_timer_collectible_feedback.HasEnded();
 	}
 }

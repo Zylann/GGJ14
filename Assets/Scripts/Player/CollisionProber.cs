@@ -21,11 +21,16 @@ public class CollisionProber : MonoBehaviour
 
 	// Danger detection
 	private Timer _timer_invulnerability;
+	
+	private float _hurt_feedback_time = 0.5f;
+	private Timer _timer_hurt_feedback;
 
 	public void Awake()
 	{
 		_timer_grounder = Timer.CreateTimer(grounded_time_tolerance, true);
 		_timer_ceiling_hugging = Timer.CreateTimer (_ceiling_hugging_time_tolerance, true);
+		_timer_hurt_feedback = Timer.CreateTimer(_hurt_feedback_time, false);
+		_timer_hurt_feedback.SetToEnd();
 		
 		_timer_stop_ground_tolerance = Timer.CreateTimer(_stop_tolerance_time, true);
 		
@@ -46,6 +51,8 @@ public class CollisionProber : MonoBehaviour
 			_grounded_impulse = true;
 		}
 		_grounded = IsGrounded();
+
+		DebugOverlay.Instance.Line ("OTG", IsGrounded ());
 	}
 
 	public void OnCollisionStay(Collision collision)
@@ -59,6 +66,7 @@ public class CollisionProber : MonoBehaviour
 				Game.Inst.m_health.TakeDamage(1);
 				Game.Inst.m_collision_prober.EndTolerance();
 				_timer_invulnerability.Restart();
+				_timer_hurt_feedback.Restart();
 			}
 			break;
 		default:
@@ -99,5 +107,10 @@ public class CollisionProber : MonoBehaviour
 	public bool IsCeilingHugging()
 	{
 		return !_timer_ceiling_hugging.HasEnded();
+	}
+
+	public bool HasHurtFeedback()
+	{
+		return !_timer_hurt_feedback.HasEnded();
 	}
 }

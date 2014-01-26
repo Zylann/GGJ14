@@ -6,6 +6,7 @@ public class MapSector : MonoBehaviour
 	public string mapName = "start";
 	public GameObject spikePrefab;
 	public GameObject collectiblePrefab;
+	public GameObject cancerPrefab;
 	public int offsetX;
 	public int width;
 	public Tilemap normalTilemap;
@@ -36,7 +37,7 @@ public class MapSector : MonoBehaviour
 			0, // [1] duck
 			2, // [2] spike up
 			3, // [3] coin
-			0, // ...
+			4, // ...
 			0,
 			0,
 			0,
@@ -80,6 +81,10 @@ public class MapSector : MonoBehaviour
 				if(t == 4)
 				{
 					Instantiate(collectiblePrefab, new Vector3(offsetX+x+0.5f, y+0.5f), Quaternion.identity);
+				}
+				else if (t == 5)
+				{
+					Instantiate(cancerPrefab, new Vector3(offsetX+x+0.5f, y+0.5f), Quaternion.identity);
 				}
 			}
 		}
