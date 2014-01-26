@@ -7,7 +7,7 @@ public class DeathTrigger : MonoBehaviour
 	{
 		if (collision.gameObject.name == "Player")
 		{
-			Application.LoadLevel(Application.loadedLevel);
+			Game.Inst.m_health.TakeDamage(20);
 		}
 	}
 }

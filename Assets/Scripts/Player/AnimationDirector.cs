@@ -12,7 +12,7 @@ public class AnimationDirector : MonoBehaviour
 
 	public void Update()
 	{
-		if (Game.Inst.m_collision_prober.HasHurtFeedback())
+		if (Game.Inst.m_collision_prober.HasHurtFeedback() || Game.Inst.m_health.current <= 0)
 		{
 			_animator.Play("hurt");
 			_animator.speed = 1f;

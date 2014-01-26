@@ -60,7 +60,7 @@ public class CollisionProber : MonoBehaviour
 		switch (collision.gameObject.tag)
 		{
 		case "Spike":
-			if (_timer_invulnerability.HasEnded())
+			if (_timer_invulnerability.HasEnded() && Game.Inst.m_health.current > 0f)
 			{
 				Game.Inst.m_walker.Hurt(collision.contacts[0].normal, 2.5f);
 				Game.Inst.m_health.TakeDamage(1);
@@ -112,6 +112,6 @@ public class CollisionProber : MonoBehaviour
 
 	public bool HasHurtFeedback()
 	{
-		return !_timer_hurt_feedback.HasEnded();
+		return !_timer_hurt_feedback.HasEnded() || Game.Inst.m_health.current <= 0f;
 	}
 }
