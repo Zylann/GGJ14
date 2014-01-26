@@ -4,9 +4,11 @@ using System.Collections.Generic;
 public class RunInputInterpeter
 {
 	private List<IRunInputListener> _lst_run_input_listeners;
+	public bool enabled { private get; set; }
 
 	public RunInputInterpeter()
 	{
+		enabled = true;
 		_lst_run_input_listeners = new List<IRunInputListener>();
 		_lst_run_input_listeners.Add(new GamepadRunInputListener());
 		_lst_run_input_listeners.Add(new KeyboardRunInputListener());
@@ -27,6 +29,11 @@ public class RunInputInterpeter
 
 	public bool GetRunHeld()
 	{
+		if (!enabled)
+		{
+			return false;
+		}
+
 		foreach (IRunInputListener run_input_listener in _lst_run_input_listeners)
 		{
 			if (run_input_listener.GetRunningHeld())
@@ -39,6 +46,11 @@ public class RunInputInterpeter
 	
 	public bool GetRunImpulse()
 	{
+		if (!enabled)
+		{
+			return false;
+		}
+
 		foreach (IRunInputListener run_input_listener in _lst_run_input_listeners)
 		{
 			if (run_input_listener.GetRunningImpulse())

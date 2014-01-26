@@ -19,6 +19,13 @@ public class AnimationDirector : MonoBehaviour
 			return;
 		}
 
+		if (Game.Inst.m_scoring.HasCancerFeedback())
+		{
+			_animator.Play("cancer");
+			_animator.speed = 1f;
+			return;
+		}
+
 		if (Game.Inst.m_scoring.HasCollectibleFeedback())
 		{
 			_animator.Play("loli");
@@ -33,7 +40,7 @@ public class AnimationDirector : MonoBehaviour
 			return;
 		}
 
-		if (Game.Inst.m_collision_prober.IsGrounded ())
+		if (Game.Inst.m_collision_prober.IsGrounded())
 		{
 			if (Game.Inst.m_walker.IsMoving())
 			{
@@ -44,7 +51,7 @@ public class AnimationDirector : MonoBehaviour
 			else
 			{
 				_animator.Play("idle");
-				_animator.speed = 1f;
+				_animator.speed = 2.25f;
 				return;
 			}
 		}

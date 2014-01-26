@@ -13,6 +13,12 @@ public class Collector : MonoBehaviour
 		case "Cancer":
 			PickCancer(collider.gameObject);
 			break;
+		case "Goal":
+			PickGoal(collider.gameObject);
+			break;
+		case "Heart":
+			PickHeart(collider.gameObject);
+			break;
 		}
 	}
 
@@ -28,5 +34,19 @@ public class Collector : MonoBehaviour
 		Game.Inst.m_scoring.PushPickCancerEvent();
 
 		Game.Destroy(cancer);	
+	}
+
+	public void PickHeart(GameObject heart)
+	{
+		Game.Inst.m_health.Heal(1);
+
+		Game.Destroy(heart);
+	}
+
+	public void PickGoal(GameObject goal)
+	{
+		Game.Inst.m_walker.DisableInputs();
+		Game.Inst.m_jumper.DisableInputs();
+		Game.Inst.m_ig_menu._menu_state = IgMenu.IG_MENU_STATE.NEXT_LEVEL;
 	}
 }

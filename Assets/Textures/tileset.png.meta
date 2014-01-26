@@ -89,7 +89,7 @@ TextureImporter:
     - name: heart
       rect:
         serializedVersion: 2
-        x: 893
+        x: 896
         y: 0
         width: 128
         height: 128
@@ -128,6 +128,15 @@ TextureImporter:
         x: 603
         y: 0
         width: 125
+        height: 128
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: heart_pickup
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 896
+        width: 128
         height: 128
       alignment: 0
       pivot: {x: .5, y: .5}

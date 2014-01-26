@@ -10,7 +10,9 @@ public class Scoring : MonoBehaviour
 	public int _current_score { get; private set; }
 
 	private float _collectible_feedback_time = 0.5f;
+	private float _cancer_feedback_time = 1.5f;
 	private Timer _timer_collectible_feedback;
+	private Timer _timer_cancer_feedback;
 	private Timer _timer_combo;
 
 	public void Awake()
@@ -18,6 +20,8 @@ public class Scoring : MonoBehaviour
 		_timer_combo = Timer.CreateTimer(_combo_cooldown, false);
 		_timer_collectible_feedback = Timer.CreateTimer (_collectible_feedback_time, false);
 		_timer_collectible_feedback.SetToEnd();
+		_timer_cancer_feedback = Timer.CreateTimer (_cancer_feedback_time, false);
+		_timer_cancer_feedback.SetToEnd();
 
 		_current_score = 0;
 	}
@@ -44,7 +48,9 @@ public class Scoring : MonoBehaviour
 	}
 
 	public void PushPickCancerEvent()
-	{		
+	{
+		_timer_cancer_feedback.Restart();
+
 		Game.Inst.m_duckfield.OffsetScale(10f);
 		Fabric.EventManager.Instance.PostEvent("Player/Sick");
 	}
@@ -61,5 +67,10 @@ public class Scoring : MonoBehaviour
 	public bool HasCollectibleFeedback()
 	{
 		return !_timer_collectible_feedback.HasEnded();
+	}
+	
+	public bool HasCancerFeedback()
+	{
+		return !_timer_cancer_feedback.HasEnded();
 	}
 }

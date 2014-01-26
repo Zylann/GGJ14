@@ -4,9 +4,11 @@ using System.Collections.Generic;
 public class DirectionInputInterpreter
 {
 	private List<IDirectionInputListener> _lst_direction_input_listener;
+	public bool enabled { private get; set; }
 
 	public DirectionInputInterpreter()
 	{
+		enabled = true;
 		_lst_direction_input_listener = new List<IDirectionInputListener>();
 		_lst_direction_input_listener.Add(new GamepadDirectionInputListener());
 		_lst_direction_input_listener.Add(new KeyboardWasdDirectionInputListener());
@@ -32,6 +34,11 @@ public class DirectionInputInterpreter
 	/// <returns>The player horizontal direction</returns>
 	public float GetDirection()
 	{
+		if (!enabled)
+		{
+			return 0f;
+		}
+
 		float direction = 0f;
 
 		foreach (IDirectionInputListener direction_input_listener in _lst_direction_input_listener)

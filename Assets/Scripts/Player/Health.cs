@@ -4,13 +4,14 @@ using System.Collections;
 public class Health : MonoBehaviour
 {
 	// Inspector-set values
-	public int max_health = 3;
+	public int base_health = 3;
+	public int max_health = 10;
 
 	private int _current_health;
 
 	public void Awake()
 	{
-		_current_health = max_health;
+		_current_health = base_health;
 	}
 
 	public void Update()
@@ -37,5 +38,10 @@ public class Health : MonoBehaviour
 		{
 			Fabric.EventManager.Instance.PostEvent("Player/Hurt");
 		}
+	}
+
+	public void Heal(int heal)
+	{
+		_current_health = Mathf.Clamp(_current_health + heal, 0, max_health);
 	}
 }
