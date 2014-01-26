@@ -4,9 +4,10 @@ using System.Collections.Generic;
 
 public class Map : MonoBehaviour
 {
-	public string[] sectors;
+	public MapSectorNames[] levels;
 	public GameObject mapSectorPrefab;
 	public int activeSectors = 3;
+	public int levelIndex = 0;
 	private int _sectorIndex;
 	private Queue<MapSector> _sectors = new Queue<MapSector>();
 	private MapSector _lastQueuedSector;
@@ -34,7 +35,7 @@ public class Map : MonoBehaviour
 			}
 
 			// if the current index has not reached the end of the sectors
-			if(_sectorIndex < sectors.Length)
+			if(_sectorIndex < levels.Length)
 			{
 				// Append next sector on the right
 				AppendSector(_sectorIndex);
@@ -47,7 +48,7 @@ public class Map : MonoBehaviour
 	{
 		GameObject sectorObj = Instantiate(mapSectorPrefab) as GameObject;
 		MapSector newSector = sectorObj.GetComponent<MapSector>();
-		newSector.mapName = sectors[i];
+		newSector.mapName = levels[levelIndex].sectors[i];
 		newSector.offsetX = _lastQueuedSector != null ? _lastQueuedSector.right : 0;
 		_sectors.Enqueue(newSector);
 		_lastQueuedSector = newSector;
@@ -55,6 +56,11 @@ public class Map : MonoBehaviour
 
 }
 
+[System.Serializable]
+public class MapSectorNames
+{
+	public string[] sectors;
+}
 
 
 
