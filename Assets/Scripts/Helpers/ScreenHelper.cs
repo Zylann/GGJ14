@@ -88,10 +88,10 @@ public class ScreenHelper : MonoBehaviour
 			
 				if (m_timer.HasEnded())
 				{
-					Application.LoadLevel(Application.loadedLevel);
+					Map.Reload();
+					//Application.LoadLevel(Application.loadedLevel);
 				}
-			
-			
+
 			
 			break;
 		}
