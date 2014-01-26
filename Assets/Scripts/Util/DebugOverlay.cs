@@ -30,7 +30,7 @@ public class DebugOverlay : MonoBehaviour
 	// Used to draw quads on the GUI
 	public static Texture2D            tex;
 	
-	public bool                        show = true;
+	public bool                        show = false;
 	private GUIStyle                   _style;
 	private Dictionary<string,string>  _texts = new Dictionary<string, string>();
 	private Dictionary<string,float>   _bars = new Dictionary<string, float>();
