@@ -12,7 +12,7 @@ public class MapSector : MonoBehaviour
 	public Tilemap normalTilemap;
 	public Tilemap duckWorldTilemap;
 
-	void Start()
+	public void Load()
 	{
 		LoadTilemap(mapName);
 	}

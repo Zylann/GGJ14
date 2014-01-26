@@ -76,6 +76,8 @@ public class TiledMap
 			Debug.LogError("TextAsset not found (" + name +")");
 			return false;
 		}
+
+		Debug.Log("Loading TiledMap " + name);
 		
 		JSONNode n = JSON.Parse(jsonText.text);
 		
