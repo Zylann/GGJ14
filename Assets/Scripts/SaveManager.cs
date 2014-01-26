@@ -11,6 +11,8 @@ public class SaveManager
 	public string path;
 	public string playerName;
 
+	public int ScoreTotal;
+
 	public static SaveManager Get()
     {
         if (instance == null)
@@ -90,4 +92,6 @@ public class SaveManager
 		
 		return LesScores;
 	}
+
+
 }

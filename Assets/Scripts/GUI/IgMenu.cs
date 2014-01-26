@@ -17,6 +17,8 @@ public class IgMenu : MonoBehaviour
 	public GUISkin GScoreSkn;
 	public GUISkin gpopup;
 
+
+
 	int ButtonWidth,ButtonHeight;
 	int ButtonPosX,ButtonPosY;
 	//int ButtonW;
@@ -27,13 +29,14 @@ public class IgMenu : MonoBehaviour
 
 	private List<string> topDix;
 
+
 	public void OnGUI()
 	{
 		ScreenHelper scr = Game.Inst.m_screen_helper;
 
 		int ButtonW = Screen.width/30;
 		int ButtonH = Screen.width/30;
-
+		_menu_state = IG_MENU_STATE.NEXT_LEVEL;
 		switch (_menu_state)
 		{
 		case IG_MENU_STATE.NONE:
@@ -43,7 +46,12 @@ public class IgMenu : MonoBehaviour
 		case IG_MENU_STATE.NEXT_LEVEL:
 			Screen.showCursor = true;
 
+
+			SaveManager.Get().ScoreTotal += Game.Inst.m_scoring._current_score;
+
+
 			//if ! dernier niveau
+			if(Map.levelIndex != 2)
 			{
 				if(GUI.Button(
 					new Rect(scr.W_to_px(_left_margin), scr.H_to_px(_top_margin),
@@ -51,7 +59,7 @@ public class IgMenu : MonoBehaviour
 						 	"Try Again"))
 				{
 
-					Application.LoadLevel(Application.loadedLevel);
+					Map.Reload();
 				}
 
 				if(GUI.Button(
@@ -59,15 +67,14 @@ public class IgMenu : MonoBehaviour
 		                    scr.W_to_px(_button_width), scr.H_to_px(_button_height)),
 		           			"Next Level"))
 				{
-					//TODO Increment Map.index
-					Application.LoadLevel(Application.loadedLevel);
+					Map.LoadNext();
 				}
 			}
-			//else AFFICHER LES SCORE
+			else //AFFICHER LES SCORES
 			{
+				//Calculer et save
 
-
-				GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height), backgroundTexture, ScaleMode.StretchToFill);
+				/*GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height), backgroundTexture, ScaleMode.StretchToFill);
 				
 				GUI.skin = gsk;
 				gsk.GetStyle("Label").fontSize=Screen.height/15;
@@ -82,19 +89,34 @@ public class IgMenu : MonoBehaviour
 
 					GUI.Label(new Rect(0,Screen.height/6+Screen.height/10*j,Screen.width,Screen.height/10), topDix[i]);
 					j++;
-				}
+				}*/
 				
 				//Bouton Retour
 				GUI.skin = gpopup;
-				if(GUI.Button(new Rect(Screen.width*14/15, Screen.height*1/15,ButtonW,ButtonH), "X"))
+				if(GUI.Button(new Rect(Screen.width/2-Screen.width/5/2, Screen.height/2-Screen.width/5/2,Screen.width/5, Screen.height/5), "You Win !!\n Score : " + SaveManager.Get().ScoreTotal))
 				{
 					playFeedback("Menu/Click");
+					Map.levelIndex = 0;
 					Application.LoadLevel("menu");
 				}
 			}
 
-			//if premier niveau
+			if (Map.levelIndex == 0)
 			{
+
+				/*//Champ de saisie
+				SaveManager.Get().playerName = GUI.TextField(new Rect(Screen.width/5,Screen.height/4, Screen.width/2, Screen.height/18), "Enter yourn name", 300);
+
+				//Bouton OK
+				//GUI.skin = gpopup;
+				//gpopup.GetStyle("Button").fontSize=Screen.width/60;
+				*/
+				/*if(GUI.Button(new Rect(Screen.width/2,Screen.height/4, Screen.height/16, Screen.height/18), "You Win !! Score : " + SaveManager.Get().ScoreTotal))
+				{
+					playFeedback("Menu/Click");
+					SaveManager.Get().scores.Add(SaveManager.Get().playerName, SaveManager.Get ().ScoreTotal);
+					SaveManager.Get ().SaveGame();
+				}*/
 
 			}
 
