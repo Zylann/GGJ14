@@ -23,8 +23,8 @@ public class Menu : MonoBehaviour {
 	
 	int ButtonWidth,ButtonHeight;
 	int ButtonPosX,ButtonPosY;
-	int ButtonW;
-	int ButtonH;
+	//int ButtonW;
+	//int ButtonH;
 	int LabelW;
 	int LabelH;
 	
@@ -47,12 +47,12 @@ public class Menu : MonoBehaviour {
 	{
 		ButtonHeight = (Screen.height/16)/*/ - Screen.height/3)/5*/;
 		ButtonWidth = (Screen.width/6);
-		Debug.Log(Screen.height);
+
 		ButtonPosX = Screen.width/2 - ButtonWidth /2;
 		ButtonPosY = Screen.height/8;
 		
-		ButtonW = Screen.width/20;
-		ButtonH = Screen.width/20;
+		//ButtonW = Screen.width/20;
+		//ButtonH = Screen.width/20;
 	
 		sm = SaveManager.Get();
 		sm.LoadGame();
@@ -191,7 +191,7 @@ public class Menu : MonoBehaviour {
 		{
 			GUI.skin = gsk;
 			gsk.GetStyle("Button").fontSize=Screen.width/40;
-			Debug.Log(Screen.height/25);
+
 			
 			GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height), backgroundMenuTexture, ScaleMode.ScaleAndCrop);
 			

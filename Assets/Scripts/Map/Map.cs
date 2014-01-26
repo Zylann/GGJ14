@@ -4,19 +4,17 @@ using System.Collections.Generic;
 
 public class Map : MonoBehaviour
 {
-	public string startPattern;
-	public string[] patterns;
+	public string[] sectors;
 	public GameObject mapSectorPrefab;
 	public int activeSectors = 3;
-	private int _patternIndex;
+	private int _sectorIndex;
 	private Queue<MapSector> _sectors = new Queue<MapSector>();
 	private MapSector _lastQueuedSector;
 
 	void Start ()
 	{
-		GameObject obj = Instantiate(mapSectorPrefab) as GameObject;
-		_lastQueuedSector = obj.GetComponent<MapSector>();
-		_sectors.Enqueue(_lastQueuedSector);
+		AppendSector(0);
+		++_sectorIndex;
 	}
 
 	void Update ()
@@ -25,8 +23,7 @@ public class Map : MonoBehaviour
 		float rightLimit = 50;
 
 		// If the sector on the right is close enough to the avatar
-		int maxX = _lastQueuedSector.right;
-		if(maxX - avatarX < rightLimit)
+		if(_lastQueuedSector.right - avatarX < rightLimit)
 		{
 			// If the sector count reached the limit
 			if(_sectors.Count >= activeSectors)
@@ -36,14 +33,24 @@ public class Map : MonoBehaviour
 				Destroy(lastSector.gameObject);
 			}
 
-			// Append new sector on the right
-			GameObject sectorObj = Instantiate(mapSectorPrefab) as GameObject;
-			MapSector newSector = sectorObj.GetComponent<MapSector>();
-			newSector.mapName = patterns[Random.Range(0, patterns.Length)]; // TODO do something better, currently for testing
-			newSector.offsetX = maxX;
-			_sectors.Enqueue(newSector);
-			_lastQueuedSector = newSector;
+			// if the current index has not reached the end of the sectors
+			if(_sectorIndex < sectors.Length)
+			{
+				// Append next sector on the right
+				AppendSector(_sectorIndex);
+				++_sectorIndex;
+			}
 		}
+	}
+
+	private void AppendSector(int i)
+	{
+		GameObject sectorObj = Instantiate(mapSectorPrefab) as GameObject;
+		MapSector newSector = sectorObj.GetComponent<MapSector>();
+		newSector.mapName = sectors[i];
+		newSector.offsetX = _lastQueuedSector != null ? _lastQueuedSector.right : 0;
+		_sectors.Enqueue(newSector);
+		_lastQueuedSector = newSector;
 	}
 
 }

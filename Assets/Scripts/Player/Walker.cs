@@ -18,6 +18,7 @@ public class Walker : MonoBehaviour
 	public AnimationCurve ground_acceleration_movement_curve;
 	public AnimationCurve air_acceleration_movement_curve;
 
+	public bool running { get; private set; }
 
 	private Movement _ground_acceleration_movement;
 	private Movement _air_acceleration_movement;
@@ -42,9 +43,17 @@ public class Walker : MonoBehaviour
 		_ground_acceleration_movement.Update();
 		_air_acceleration_movement.Update();
 
-		bool running = _run_input_interpreter.GetRunHeld();
+		running = _run_input_interpreter.GetRunHeld();
 		float current_run_factor = running ? run_bonus : 1f;
-		Game.Inst.m_cameraman.SetCameraSmoothingToRun(running && _direction_input_interpreter.GetDirection() > 0f); // Offset camera when running the the right
+		Game.Inst.m_cameraman.SetCameraSmoothingToRun(running && IsMoving()); // Offset camera when running the the right
+
+		if (_direction_input_interpreter.GetDirection () > 0f && transform.localScale.x < 0f) {
+			transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+		}
+		else if (_direction_input_interpreter.GetDirection () < 0f && transform.localScale.x > 0f)
+		{
+			transform.localScale = new Vector3(-1f * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+		}
 
 		// Walking
 		if (Game.Inst.m_collision_prober.IsGrounded())
@@ -82,5 +91,10 @@ public class Walker : MonoBehaviour
 	public void Hurt(Vector3 normal, float strength)
 	{
 		rigidbody.AddForce(normal * strength * (Game.Inst.m_collision_prober.IsGrounded() ? ground_hurt_speed : air_hurt_speed));
+	}
+
+	public bool IsMoving()
+	{
+		return _direction_input_interpreter.GetDirection() > 0f;
 	}
 }

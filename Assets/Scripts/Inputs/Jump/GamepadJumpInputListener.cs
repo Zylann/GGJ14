@@ -14,8 +14,8 @@ public class GamepadJumpInputListener : IJumpInputListener
 	
 	public void Update()
 	{
-		_jump_impulse = Input.GetButtonDown("_Gamepad_Jump");
-		_jump_held = Input.GetButton("_Gamepad_Jump");
+		_jump_impulse = Input.GetButtonDown("_Gamepad_Jump_AB") || Input.GetButtonDown("_Gamepad_Jump_XY");
+		_jump_held = Input.GetButton("_Gamepad_Jump_AB") || Input.GetButton("_Gamepad_Jump_XY");
 	}
 
 	public bool GetJumpImpulse()
