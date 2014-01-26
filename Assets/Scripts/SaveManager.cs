@@ -9,17 +9,8 @@ public class SaveManager
 	private static SaveManager instance = null;
 	public Dictionary<string, int> scores = new Dictionary<string, int>();
 	public string path;
-	// Use this for initialization
-	void Start () 
-	{
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-	
+	public string playerName;
+
 	public static SaveManager Get()
     {
         if (instance == null)
@@ -37,7 +28,7 @@ public class SaveManager
 		{
         	Directory.CreateDirectory (path);
     	}
-		//TODO creer string
+
 		foreach(string key in scores.Keys)
 		{
 			text+=":"+key+"/"+scores[key];
@@ -64,7 +55,7 @@ public class SaveManager
 		}
 		string saveFile = System.IO.File.ReadAllText(path + "/save.save");
 		
-		//TODO parser le string
+
 		string[] split_personne = saveFile.Split(':');
 		
 		int i = 0;

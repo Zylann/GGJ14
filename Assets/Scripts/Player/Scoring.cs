@@ -31,12 +31,14 @@ public class Scoring : MonoBehaviour
 		if (_timer_combo.HasEnded())
 		{
 			_current_combo = 0;
+			Game.Inst.m_duckfield.OffsetScale(-200f);
 		}
 	}
 
 	public void PushPickCollectibleEvent()
 	{
 		_timer_combo.Restart();
+
 
 		_current_combo++;
 		_current_score += _current_combo;
@@ -68,6 +70,7 @@ public class Scoring : MonoBehaviour
 	{
 		return !_timer_collectible_feedback.HasEnded();
 	}
+
 	
 	public bool HasCancerFeedback()
 	{
