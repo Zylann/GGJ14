@@ -86,7 +86,7 @@ public class Menu : MonoBehaviour {
 		int ButtonH = Screen.width/30;
 
 
-		if (t<4) {GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height), splashscreen, ScaleMode.StretchToFill);}
+		if (t<2) {GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height), splashscreen, ScaleMode.StretchToFill);}
 		
 		else if(HowToPlayisActive) //HowToPlay
 		{
@@ -131,7 +131,7 @@ public class Menu : MonoBehaviour {
 			gsk.GetStyle("Label").fontStyle= FontStyle.BoldAndItalic;
 			GUI.Label(new Rect(0,Screen.height/6,Screen.width/2,Screen.height/10), "Credits");
 		}
-		else if(SettingsisActive) //Settings
+		/*else if(SettingsisActive) //Settings
 		{
 			GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height), backgroundCreditTexture, ScaleMode.StretchToFill);
 
@@ -180,7 +180,7 @@ public class Menu : MonoBehaviour {
 					PopupActive = false;
 				}
 			}
-		}
+		}*/
 		else if(HighScoreisActive) //HighScore
 		{
 			GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height), backgroundCreditTexture, ScaleMode.StretchToFill);
@@ -207,6 +207,15 @@ public class Menu : MonoBehaviour {
 				playFeedback("Menu/Click");
 				 HighScoreisActive = false;
 			}
+
+			//Bouton Retour
+			GUI.skin = gpopup;
+			//Bouton Retour
+			if(GUI.Button(new Rect(Screen.width*14/15, Screen.height*1/15,ButtonW,ButtonH), "X"))
+			{
+				playFeedback("Menu/Click");
+				HighScoreisActive = false;
+			}
 		}
 		else
 		{
@@ -228,11 +237,11 @@ public class Menu : MonoBehaviour {
 				playFeedback("Menu/Click");
 			}
 			
-			if(GUI.Button(new Rect(ButtonPosX, ButtonPosY+ButtonHeight*4,ButtonWidth,ButtonHeight), "Settings"))
+			/*if(GUI.Button(new Rect(ButtonPosX, ButtonPosY+ButtonHeight*4,ButtonWidth,ButtonHeight), "Settings"))
 			{
 				SettingsisActive = true;
 				playFeedback("Menu/Click");
-			}
+			}*/
 			
 			if(GUI.Button(new Rect(ButtonPosX,ButtonPosY+ButtonHeight*6,ButtonWidth,ButtonHeight), "High scores"))
 			{

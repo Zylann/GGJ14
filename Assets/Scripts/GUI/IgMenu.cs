@@ -7,16 +7,14 @@ public class IgMenu : MonoBehaviour
 	public enum IG_MENU_STATE { NONE, NEXT_LEVEL }
 	public IG_MENU_STATE _menu_state;
 
-	private float _button_width = 0.15f;
+	private float _button_width = 0.3f;
 	private float _button_height = 0.10f;
 	private float _left_margin = 0.4f;
 	private float _top_margin = 0.25f;
 
-	public Texture backgroundTexture;
+	public Texture popUpTexture;
+	
 	public GUISkin gsk;
-	public GUISkin GScoreSkn;
-	public GUISkin gpopup;
-
 
 
 	int ButtonWidth,ButtonHeight;
@@ -32,11 +30,12 @@ public class IgMenu : MonoBehaviour
 
 	public void OnGUI()
 	{
+		GUI.skin = gsk;
 		ScreenHelper scr = Game.Inst.m_screen_helper;
 
 		int ButtonW = Screen.width/30;
 		int ButtonH = Screen.width/30;
-		_menu_state = IG_MENU_STATE.NEXT_LEVEL;
+
 		switch (_menu_state)
 		{
 		case IG_MENU_STATE.NONE:
@@ -49,7 +48,7 @@ public class IgMenu : MonoBehaviour
 
 			SaveManager.Get().ScoreTotal += Game.Inst.m_scoring._current_score;
 
-
+			GUI.Label(new Rect(Screen.width/2-Screen.width/3,Screen.height/2-Screen.height/3,2*Screen.width/3,2*Screen.height/3), popUpTexture);
 			//if ! dernier niveau
 			if(Map.levelIndex != 2)
 			{
@@ -92,7 +91,7 @@ public class IgMenu : MonoBehaviour
 				}*/
 				
 				//Bouton Retour
-				GUI.skin = gpopup;
+				//GUI.skin = gpopup;
 				if(GUI.Button(new Rect(Screen.width/2-Screen.width/5/2, Screen.height/2-Screen.width/5/2,Screen.width/5, Screen.height/5), "You Win !!\n Score : " + SaveManager.Get().ScoreTotal))
 				{
 					playFeedback("Menu/Click");
